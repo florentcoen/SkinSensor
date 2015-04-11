@@ -10,5 +10,5 @@
 #import "analogPinTableViewCell.h"
 #import "digitalPinTableViewCell.h"
 
-@interface PinIOTableViewController : UITableViewController
+@interface PinIOTableViewController : UITableViewController <digitalPinCellDelegate,analogPinCellDelegate>
 @end

@@ -19,4 +19,8 @@
     // Configure the view for the selected state
 }
 
+- (IBAction)segmentedButtonTappedInAnalogPinCell:(id)sender {
+    NSLog(@"the IBAction in the analog cell was called");
+    [self.delegate analogModeSegmentedButtonWasTapped:self];
+}
 @end

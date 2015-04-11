@@ -21,6 +21,9 @@
                             <segment title="Digital Write"/>
                             <segment title="Analog Read"/>
                         </segments>
+                        <connections>
+                            <action selector="segmentedButtonTappedInAnalogPinCell:" destination="KGk-i7-Jjw" eventType="valueChanged" id="1cq-6K-I86"/>
+                        </connections>
                     </segmentedControl>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2NY-cl-IwI">
                         <rect key="frame" x="139" y="55" width="42" height="21"/>

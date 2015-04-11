@@ -20,4 +20,10 @@
     // Configure the view for the selected state
 }
 
+- (IBAction)segmentedButtonTappedInDigitalPinCell:(id)sender {
+    NSLog(@"the IBAction in the digital cell was called");
+    [self.delegate digitalModeSegmentedButtonWasTapped:self];
+}
+
+
 @end
