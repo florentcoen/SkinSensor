@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="13F1066" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="6kg-ed-YGm">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+    </dependencies>
+    <scenes>
+        <!--Informations-->
+        <scene sceneID="oj9-TD-E51">
+            <objects>
+                <viewController id="HEh-wv-l0z" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="bms-xI-AsD"/>
+                        <viewControllerLayoutGuide type="bottom" id="2c9-uJ-Xdm"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Uiq-ZJ-vUk">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Informations" id="Zki-At-XYe">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="mhz-qb-kYo">
+                            <connections>
+                                <segue destination="8cI-VG-5oy" kind="unwind" unwindAction="unwindToMainMenu:" id="xJM-ZL-5oz"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mEA-UJ-GHb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="8cI-VG-5oy" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="1792" y="-2811"/>
+        </scene>
+        <!--Skin Sensor 1.0-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="mainMenuViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NnT-dE-bmi">
+                                <rect key="frame" x="255" y="285" width="90" height="30"/>
+                                <state key="normal" title="Show Pin I/O">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="K9c-mo-2gx" kind="show" identifier="pressedShowPinIOButton" id="Yyy-ss-2Tt"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="NnT-dE-bmi" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="DZX-qJ-RPx"/>
+                            <constraint firstItem="NnT-dE-bmi" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="XpY-bt-upd"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Skin Sensor 1.0" id="NIZ-8u-tCf">
+                        <barButtonItem key="rightBarButtonItem" id="a9x-l3-xQL">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" id="Zg7-FN-WPY">
+                                <rect key="frame" x="451" y="7" width="22" height="22"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="Tkv-Th-QFu" kind="presentation" identifier="pressedInfoButton" modalPresentationStyle="currentContext" modalTransitionStyle="flipHorizontal" id="IWO-hg-JuM"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="286" y="-1509"/>
+        </scene>
+        <!--Pin I/O-->
+        <scene sceneID="ePG-Kx-ZUZ">
+            <objects>
+                <tableViewController id="K9c-mo-2gx" customClass="PinIOTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="C1S-ku-jPS">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
+                        <connections>
+                            <outlet property="dataSource" destination="K9c-mo-2gx" id="Abx-fC-bQ3"/>
+                            <outlet property="delegate" destination="K9c-mo-2gx" id="0cX-DE-0Af"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Pin I/O" id="k3e-Tt-jkp"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FT8-Qi-A46" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1030" y="-1428"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="1S6-EZ-iaX">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="6kg-ed-YGm" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="cn6-cY-cEX">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="VZs-C6-VR0"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3jz-rE-NK2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-472" y="-1509"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Ocw-EI-Od5">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Tkv-Th-QFu" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="x8u-ZS-M5Q">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="HEh-wv-l0z" kind="relationship" relationship="rootViewController" id="CEc-Wd-hmp"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2ny-B4-ZHk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1016" y="-2811"/>
+        </scene>
+    </scenes>
+</document>

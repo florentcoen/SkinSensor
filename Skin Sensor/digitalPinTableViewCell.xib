@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="13F1066" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="digitalPin" rowHeight="132" id="KGk-i7-Jjw" customClass="digitalPinTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="132"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Rvm-x2-D1C">
+                        <rect key="frame" x="27" y="8" width="266" height="29"/>
+                        <segments>
+                            <segment title="Digital Read"/>
+                            <segment title="Digital Write"/>
+                            <segment title="Analog Write"/>
+                        </segments>
+                    </segmentedControl>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="test" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LNm-S8-DVj">
+                        <rect key="frame" x="146" y="55" width="29" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="Rvm-x2-D1C" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="IUg-RP-TZs"/>
+                    <constraint firstItem="LNm-S8-DVj" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="JMh-b5-usd"/>
+                    <constraint firstItem="Rvm-x2-D1C" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="KDS-TL-aTB"/>
+                    <constraint firstItem="Rvm-x2-D1C" firstAttribute="centerX" secondItem="LNm-S8-DVj" secondAttribute="centerX" id="R1E-KG-P64"/>
+                    <constraint firstItem="Rvm-x2-D1C" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="19" id="Vb0-14-Gum"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="modeControlButton" destination="Rvm-x2-D1C" id="Y82-s3-aUa"/>
+                <outlet property="testLabel" destination="LNm-S8-DVj" id="dWT-ky-mMf"/>
+            </connections>
+            <point key="canvasLocation" x="482" y="198"/>
+        </tableViewCell>
+    </objects>
+</document>

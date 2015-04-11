@@ -9,11 +9,16 @@
 /* Begin PBXBuildFile section */
 		E0F89E7C1AD91A1700E95200 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E0F89E7B1AD91A1700E95200 /* main.m */; };
 		E0F89E7F1AD91A1700E95200 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E0F89E7E1AD91A1700E95200 /* AppDelegate.m */; };
-		E0F89E821AD91A1700E95200 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E0F89E811AD91A1700E95200 /* ViewController.m */; };
-		E0F89E851AD91A1700E95200 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E0F89E831AD91A1700E95200 /* Main.storyboard */; };
 		E0F89E871AD91A1700E95200 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E0F89E861AD91A1700E95200 /* Images.xcassets */; };
 		E0F89E8A1AD91A1700E95200 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E0F89E881AD91A1700E95200 /* LaunchScreen.xib */; };
 		E0F89E961AD91A1700E95200 /* Skin_SensorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E0F89E951AD91A1700E95200 /* Skin_SensorTests.m */; };
+		E0F89EB51AD920DB00E95200 /* analogPinTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E0F89EB31AD920DB00E95200 /* analogPinTableViewCell.m */; };
+		E0F89EB61AD920DB00E95200 /* analogPinTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E0F89EB41AD920DB00E95200 /* analogPinTableViewCell.xib */; };
+		E0F89EBA1AD920EC00E95200 /* digitalPinTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E0F89EB81AD920EC00E95200 /* digitalPinTableViewCell.m */; };
+		E0F89EBB1AD920EC00E95200 /* digitalPinTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E0F89EB91AD920EC00E95200 /* digitalPinTableViewCell.xib */; };
+		E0F89EC01AD920FB00E95200 /* mainMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E0F89EBD1AD920FB00E95200 /* mainMenuViewController.m */; };
+		E0F89EC11AD920FB00E95200 /* PinIOTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E0F89EBF1AD920FB00E95200 /* PinIOTableViewController.m */; };
+		E0F89EC31AD9210700E95200 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E0F89EC21AD9210700E95200 /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,14 +37,22 @@
 		E0F89E7B1AD91A1700E95200 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E0F89E7D1AD91A1700E95200 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E0F89E7E1AD91A1700E95200 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		E0F89E801AD91A1700E95200 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		E0F89E811AD91A1700E95200 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		E0F89E841AD91A1700E95200 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E0F89E861AD91A1700E95200 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		E0F89E891AD91A1700E95200 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		E0F89E8F1AD91A1700E95200 /* Skin SensorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Skin SensorTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E0F89E941AD91A1700E95200 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E0F89E951AD91A1700E95200 /* Skin_SensorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Skin_SensorTests.m; sourceTree = "<group>"; };
+		E0F89EB21AD920DB00E95200 /* analogPinTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = analogPinTableViewCell.h; sourceTree = "<group>"; };
+		E0F89EB31AD920DB00E95200 /* analogPinTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = analogPinTableViewCell.m; sourceTree = "<group>"; };
+		E0F89EB41AD920DB00E95200 /* analogPinTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = analogPinTableViewCell.xib; sourceTree = "<group>"; };
+		E0F89EB71AD920EC00E95200 /* digitalPinTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = digitalPinTableViewCell.h; sourceTree = "<group>"; };
+		E0F89EB81AD920EC00E95200 /* digitalPinTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = digitalPinTableViewCell.m; sourceTree = "<group>"; };
+		E0F89EB91AD920EC00E95200 /* digitalPinTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = digitalPinTableViewCell.xib; sourceTree = "<group>"; };
+		E0F89EBC1AD920FB00E95200 /* mainMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mainMenuViewController.h; sourceTree = "<group>"; };
+		E0F89EBD1AD920FB00E95200 /* mainMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mainMenuViewController.m; sourceTree = "<group>"; };
+		E0F89EBE1AD920FB00E95200 /* PinIOTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PinIOTableViewController.h; sourceTree = "<group>"; };
+		E0F89EBF1AD920FB00E95200 /* PinIOTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PinIOTableViewController.m; sourceTree = "<group>"; };
+		E0F89EC21AD9210700E95200 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,11 +94,19 @@
 		E0F89E781AD91A1700E95200 /* Skin Sensor */ = {
 			isa = PBXGroup;
 			children = (
+				E0F89EC21AD9210700E95200 /* Main.storyboard */,
+				E0F89EBC1AD920FB00E95200 /* mainMenuViewController.h */,
+				E0F89EBD1AD920FB00E95200 /* mainMenuViewController.m */,
+				E0F89EBE1AD920FB00E95200 /* PinIOTableViewController.h */,
+				E0F89EBF1AD920FB00E95200 /* PinIOTableViewController.m */,
+				E0F89EB71AD920EC00E95200 /* digitalPinTableViewCell.h */,
+				E0F89EB81AD920EC00E95200 /* digitalPinTableViewCell.m */,
+				E0F89EB91AD920EC00E95200 /* digitalPinTableViewCell.xib */,
+				E0F89EB21AD920DB00E95200 /* analogPinTableViewCell.h */,
+				E0F89EB31AD920DB00E95200 /* analogPinTableViewCell.m */,
+				E0F89EB41AD920DB00E95200 /* analogPinTableViewCell.xib */,
 				E0F89E7D1AD91A1700E95200 /* AppDelegate.h */,
 				E0F89E7E1AD91A1700E95200 /* AppDelegate.m */,
-				E0F89E801AD91A1700E95200 /* ViewController.h */,
-				E0F89E811AD91A1700E95200 /* ViewController.m */,
-				E0F89E831AD91A1700E95200 /* Main.storyboard */,
 				E0F89E861AD91A1700E95200 /* Images.xcassets */,
 				E0F89E881AD91A1700E95200 /* LaunchScreen.xib */,
 				E0F89E791AD91A1700E95200 /* Supporting Files */,
@@ -199,9 +220,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E0F89E851AD91A1700E95200 /* Main.storyboard in Resources */,
+				E0F89EBB1AD920EC00E95200 /* digitalPinTableViewCell.xib in Resources */,
+				E0F89EC31AD9210700E95200 /* Main.storyboard in Resources */,
 				E0F89E8A1AD91A1700E95200 /* LaunchScreen.xib in Resources */,
 				E0F89E871AD91A1700E95200 /* Images.xcassets in Resources */,
+				E0F89EB61AD920DB00E95200 /* analogPinTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -219,9 +242,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E0F89E821AD91A1700E95200 /* ViewController.m in Sources */,
+				E0F89EBA1AD920EC00E95200 /* digitalPinTableViewCell.m in Sources */,
+				E0F89EC11AD920FB00E95200 /* PinIOTableViewController.m in Sources */,
 				E0F89E7F1AD91A1700E95200 /* AppDelegate.m in Sources */,
+				E0F89EC01AD920FB00E95200 /* mainMenuViewController.m in Sources */,
 				E0F89E7C1AD91A1700E95200 /* main.m in Sources */,
+				E0F89EB51AD920DB00E95200 /* analogPinTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -244,14 +270,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		E0F89E831AD91A1700E95200 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E0F89E841AD91A1700E95200 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		E0F89E881AD91A1700E95200 /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -414,6 +432,7 @@
 				E0F89E9B1AD91A1700E95200 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E0F89E9C1AD91A1700E95200 /* Build configuration list for PBXNativeTarget "Skin SensorTests" */ = {
 			isa = XCConfigurationList;
@@ -422,6 +441,7 @@
 				E0F89E9E1AD91A1700E95200 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
