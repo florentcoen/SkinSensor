@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="13F1066" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="13F1077" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -14,37 +14,75 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="test" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LNm-S8-DVj">
-                        <rect key="frame" x="146" y="55" width="29" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Digital Pin X" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LNm-S8-DVj">
+                        <rect key="frame" x="8" y="11" width="104" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="104" id="TyL-WN-8nz"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Rvm-x2-D1C">
-                        <rect key="frame" x="27" y="8" width="266" height="29"/>
+                        <rect key="frame" x="27" y="53" width="266" height="29"/>
                         <segments>
                             <segment title="Digital Read"/>
                             <segment title="Digital Write"/>
-                            <segment title="Analog Write"/>
+                            <segment title="PWM"/>
                         </segments>
                         <connections>
-                            <action selector="segmentedButtonTappedInDigitalPinCell:" destination="KGk-i7-Jjw" eventType="valueChanged" id="lz9-vF-jRV"/>
+                            <action selector="modeSegmentedButtonTappedInDigitalPinCell:" destination="KGk-i7-Jjw" eventType="valueChanged" id="mmB-Is-y5i"/>
                         </connections>
                     </segmentedControl>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pin Value" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bRp-Zq-tbc">
+                        <rect key="frame" x="234" y="11" width="78" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="78" id="OGO-Qv-8c9"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="gJM-fO-Hcj">
+                        <rect key="frame" x="27" y="91" width="266" height="29"/>
+                        <segments>
+                            <segment title="Low"/>
+                            <segment title="High"/>
+                        </segments>
+                        <connections>
+                            <action selector="stateSegmentedButtonTappedInDigitalPinCell:" destination="KGk-i7-Jjw" eventType="valueChanged" id="5If-VZ-zDq"/>
+                        </connections>
+                    </segmentedControl>
+                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="255" translatesAutoresizingMaskIntoConstraints="NO" id="Oc5-sh-F8A">
+                        <rect key="frame" x="25" y="91" width="270" height="31"/>
+                        <connections>
+                            <action selector="pvmSliderModifiedInDigitalPinCell:" destination="KGk-i7-Jjw" eventType="valueChanged" id="gTz-Eb-MQd"/>
+                        </connections>
+                    </slider>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="Rvm-x2-D1C" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="IUg-RP-TZs"/>
-                    <constraint firstItem="LNm-S8-DVj" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="JMh-b5-usd"/>
-                    <constraint firstItem="Rvm-x2-D1C" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="KDS-TL-aTB"/>
-                    <constraint firstItem="Rvm-x2-D1C" firstAttribute="centerX" secondItem="LNm-S8-DVj" secondAttribute="centerX" id="R1E-KG-P64"/>
-                    <constraint firstItem="Rvm-x2-D1C" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="19" id="Vb0-14-Gum"/>
+                    <constraint firstItem="gJM-fO-Hcj" firstAttribute="top" secondItem="Oc5-sh-F8A" secondAttribute="top" id="2dG-Hu-Vo8"/>
+                    <constraint firstItem="Oc5-sh-F8A" firstAttribute="leading" secondItem="gJM-fO-Hcj" secondAttribute="leading" id="AzQ-rM-Fkm"/>
+                    <constraint firstItem="Rvm-x2-D1C" firstAttribute="trailing" secondItem="gJM-fO-Hcj" secondAttribute="trailing" id="OZl-KM-quJ"/>
+                    <constraint firstItem="gJM-fO-Hcj" firstAttribute="top" secondItem="Rvm-x2-D1C" secondAttribute="bottom" constant="10" id="OpT-OT-eFt"/>
+                    <constraint firstItem="Oc5-sh-F8A" firstAttribute="trailing" secondItem="gJM-fO-Hcj" secondAttribute="trailing" id="PKS-Ul-Red"/>
+                    <constraint firstItem="LNm-S8-DVj" firstAttribute="baseline" secondItem="bRp-Zq-tbc" secondAttribute="baseline" id="YKe-jk-Rlh"/>
+                    <constraint firstItem="bRp-Zq-tbc" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="aym-UC-KAk"/>
+                    <constraint firstItem="LNm-S8-DVj" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="3" id="e5x-49-Zpc"/>
+                    <constraint firstItem="Rvm-x2-D1C" firstAttribute="top" secondItem="LNm-S8-DVj" secondAttribute="bottom" constant="21" id="fM0-om-cHP"/>
+                    <constraint firstItem="gJM-fO-Hcj" firstAttribute="leading" secondItem="Rvm-x2-D1C" secondAttribute="leading" id="fnb-k1-rb5"/>
+                    <constraint firstItem="LNm-S8-DVj" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="jsr-sR-7NW"/>
+                    <constraint firstItem="Oc5-sh-F8A" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="ow5-c1-f96"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="modeControlButton" destination="Rvm-x2-D1C" id="Y82-s3-aUa"/>
-                <outlet property="testLabel" destination="LNm-S8-DVj" id="dWT-ky-mMf"/>
+                <outlet property="pinNameLabel" destination="LNm-S8-DVj" id="bh3-qq-Wnc"/>
+                <outlet property="pinValueLabel" destination="bRp-Zq-tbc" id="2M7-Tf-n0G"/>
+                <outlet property="pwmSlider" destination="Oc5-sh-F8A" id="6dv-ag-Yyv"/>
+                <outlet property="stateControlButton" destination="gJM-fO-Hcj" id="724-Ak-zHn"/>
             </connections>
-            <point key="canvasLocation" x="482" y="198"/>
+            <point key="canvasLocation" x="482" y="186"/>
         </tableViewCell>
     </objects>
 </document>

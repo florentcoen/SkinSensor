@@ -32,6 +32,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E06664C61AE50C8D001927F3 /* pinModeValues.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = pinModeValues.h; path = ../pinModeValues.h; sourceTree = "<group>"; };
 		E0F89E761AD91A1700E95200 /* Skin Sensor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Skin Sensor.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E0F89E7A1AD91A1700E95200 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E0F89E7B1AD91A1700E95200 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -94,6 +95,7 @@
 		E0F89E781AD91A1700E95200 /* Skin Sensor */ = {
 			isa = PBXGroup;
 			children = (
+				E06664C61AE50C8D001927F3 /* pinModeValues.h */,
 				E0F89EC21AD9210700E95200 /* Main.storyboard */,
 				E0F89EBC1AD920FB00E95200 /* mainMenuViewController.h */,
 				E0F89EBD1AD920FB00E95200 /* mainMenuViewController.m */,
@@ -364,6 +366,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "Skin Sensor/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -374,6 +377,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "Skin Sensor/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

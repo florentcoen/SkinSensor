@@ -19,11 +19,19 @@
 
     // Configure the view for the selected state
 }
-
-- (IBAction)segmentedButtonTappedInDigitalPinCell:(id)sender {
-    NSLog(@"the IBAction in the digital cell was called");
+- (IBAction)modeSegmentedButtonTappedInDigitalPinCell:(id)sender {
+    NSLog(@"the IBAction mode in the digital cell was called");
     [self.delegate digitalModeSegmentedButtonWasTapped:self];
 }
 
+- (IBAction)stateSegmentedButtonTappedInDigitalPinCell:(id)sender {
+    NSLog(@"the IBAction state in the digital cell was called");
+    [self.delegate digitalStateSegmentedButtonWasTapped:self];
+}
+
+- (IBAction)pvmSliderModifiedInDigitalPinCell:(id)sender {
+    NSLog(@"the IBAction sliderin the digital cell was called");
+    [self.delegate digitalPwmSliderWasMoved:self];
+}
 
 @end

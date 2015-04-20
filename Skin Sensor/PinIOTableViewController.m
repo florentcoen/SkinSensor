@@ -79,7 +79,28 @@
             cell = [nib objectAtIndex:0];
         }
         cell.delegate = self;
-        cell.testLabel.text = [NSString stringWithFormat:@"Digital Pin %d",(int)indexPath.row+3];
+        cell.pinNameLabel.text = [NSString stringWithFormat:@"Digital Pin %d",(int)indexPath.row+3];
+        if (cell.pinMode == pinModeDigitalRead) {
+            [cell.pwmSlider setHidden:YES];
+            [cell.stateControlButton setEnabled:NO];
+            [cell.stateControlButton setHidden:NO];
+        }
+        else if(cell.pinMode == pinModeDigitalWrite){
+            [cell.pwmSlider setHidden:YES];
+            [cell.stateControlButton setEnabled:YES];
+            [cell.stateControlButton setHidden:NO];
+            if (cell.stateControlButton.selectedSegmentIndex == 0) {
+                cell.pinValueLabel.text = @"Low";
+            }
+            else{
+                cell.pinValueLabel.text = @"High";
+            }
+        }
+        else if(cell.pinMode == pinModeDigitalPwm){
+            [cell.pwmSlider setHidden:NO];
+            [cell.stateControlButton setHidden:YES];
+        }
+        
         return cell;
         
     }
@@ -91,7 +112,22 @@
             cell = [nib objectAtIndex:0];
         }
         cell.delegate = self;
-        cell.testLabel.text = [NSString stringWithFormat:@"Analog Pin %d",(int)indexPath.row];
+        cell.pinNameLabel.text = [NSString stringWithFormat:@"Analog Pin %d",(int)indexPath.row];
+        if(cell.pinMode == pinModeDigitalRead){
+            [cell.stateControlButton setEnabled:NO];
+        }
+        else if(cell.pinMode == pinModeDigitalWrite){
+            [cell.stateControlButton setEnabled:YES];
+            if (cell.stateControlButton.selectedSegmentIndex == 0) {
+                cell.pinValueLabel.text = @"Low";
+            }
+            else{
+                cell.pinValueLabel.text = @"High";
+            }
+        }
+        else if(cell.pinMode == pinModeAnalogRead){
+            [cell.stateControlButton setEnabled:NO];
+        }
         return cell;
     }
     
@@ -106,15 +142,44 @@
 - (void) digitalModeSegmentedButtonWasTapped:(digitalPinTableViewCell *) cell{
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     NSLog(@"The digital protocol was executed correctly and this button press has been transmitted");
-    NSLog(@"the state of the segmented button is %ld for digital cell at section %ld row %ld",(long)cell.modeControlButton.selectedSegmentIndex,(long)indexPath.section,indexPath.row);
+    NSLog(@"the mode is %ld for digital cell at section %ld row %ld",(long)cell.modeControlButton.selectedSegmentIndex,(long)indexPath.section,(long)indexPath.row);
+    if (cell.modeControlButton.selectedSegmentIndex == 2) {
+        cell.pinMode = pinModeDigitalPwm; //pinModeDigitalPvm = 3 while the button = 2 => correction required
+        NSLog(@"PVM MODE ENABLED");
+    }
+    else{
+        cell.pinMode = cell.modeControlButton.selectedSegmentIndex;
+    }
+    [self.tableView reloadData];
+}
+
+- (void) digitalStateSegmentedButtonWasTapped:(digitalPinTableViewCell *)cell{
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    NSLog(@"The digital protocol was executed correctly and this button press has been transmitted");
+    NSLog(@"the state is %ld for digital cell at section %ld row %ld",(long)cell.stateControlButton.selectedSegmentIndex,(long)indexPath.section,(long)indexPath.row);
+    [self.tableView reloadData];
+}
+
+- (void) digitalPwmSliderWasMoved:(digitalPinTableViewCell *)cell{
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    NSLog(@"The digital protocol was executed correctly and this button press has been transmitted");
+    NSLog(@"the slider value is %ld for digital cell at section %ld row %ld",(long)cell.pwmSlider.value,(long)indexPath.section,(long)indexPath.row);
 }
 
 - (void) analogModeSegmentedButtonWasTapped:(analogPinTableViewCell *) cell{
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     NSLog(@"The analog protocol was executed correctly and this button press has been transmitted");
-    NSLog(@"the state of the segmented button is %ld for analog cell at section %ld row %ld",(long)cell.modeControlButton.selectedSegmentIndex,(long)indexPath.section,indexPath.row);
+    NSLog(@"the mode is %ld for analog cell at section %ld row %ld",(long)cell.modeControlButton.selectedSegmentIndex,(long)indexPath.section,(long)indexPath.row);
+    cell.pinMode = cell.modeControlButton.selectedSegmentIndex;
+    [self.tableView reloadData];
 }
 
+- (void) analogStateSegmentedButtonWasTapped:(analogPinTableViewCell *)cell{
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    NSLog(@"The analog protocol was executed correctly and this button press has been transmitted");
+    NSLog(@"the state is %ld for analog cell at section %ld row %ld",(long)cell.stateControlButton.selectedSegmentIndex,(long)indexPath.section,(long)indexPath.row);
+    [self.tableView reloadData];
+}
 /*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {

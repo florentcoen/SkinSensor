@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="13F1066" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="13F1077" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -15,36 +15,65 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Bzx-bt-Zq0">
-                        <rect key="frame" x="27" y="8" width="266" height="29"/>
+                        <rect key="frame" x="27" y="52" width="266" height="29"/>
                         <segments>
                             <segment title="Digital Read"/>
                             <segment title="Digital Write"/>
                             <segment title="Analog Read"/>
                         </segments>
                         <connections>
-                            <action selector="segmentedButtonTappedInAnalogPinCell:" destination="KGk-i7-Jjw" eventType="valueChanged" id="1cq-6K-I86"/>
+                            <action selector="modeSegmentedButtonTappedInAnalogPinCell:" destination="KGk-i7-Jjw" eventType="valueChanged" id="LYW-dX-mdH"/>
                         </connections>
                     </segmentedControl>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2NY-cl-IwI">
-                        <rect key="frame" x="139" y="55" width="42" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Analog Pin X" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2NY-cl-IwI">
+                        <rect key="frame" x="8" y="11" width="104" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="104" id="E8g-Qz-weY"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pin Value" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KGF-T0-OfH">
+                        <rect key="frame" x="234" y="11" width="78" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="78" id="nEP-Nj-TvJ"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Ht9-Fc-rIS">
+                        <rect key="frame" x="27" y="90" width="266" height="29"/>
+                        <segments>
+                            <segment title="Low"/>
+                            <segment title="High"/>
+                        </segments>
+                        <connections>
+                            <action selector="stateSegmentedButtonTappedInAnalogPinCell:" destination="KGk-i7-Jjw" eventType="valueChanged" id="xRg-V0-dYD"/>
+                        </connections>
+                    </segmentedControl>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="Bzx-bt-Zq0" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="19" id="8iY-d7-fhf"/>
-                    <constraint firstItem="Bzx-bt-Zq0" firstAttribute="centerX" secondItem="2NY-cl-IwI" secondAttribute="centerX" id="Mg2-bZ-GyL"/>
-                    <constraint firstItem="Bzx-bt-Zq0" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="eY8-vE-THu"/>
-                    <constraint firstItem="Bzx-bt-Zq0" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="g8b-F2-khH"/>
-                    <constraint firstItem="2NY-cl-IwI" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="ul9-dT-Yuc"/>
+                    <constraint firstItem="2NY-cl-IwI" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="3" id="3qQ-jn-kZi"/>
+                    <constraint firstItem="Bzx-bt-Zq0" firstAttribute="top" secondItem="2NY-cl-IwI" secondAttribute="bottom" constant="20" id="8sd-py-bvx"/>
+                    <constraint firstItem="Ht9-Fc-rIS" firstAttribute="top" secondItem="Bzx-bt-Zq0" secondAttribute="bottom" constant="10" id="ADO-CR-Z9a"/>
+                    <constraint firstItem="Ht9-Fc-rIS" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="Ebg-43-1Et"/>
+                    <constraint firstItem="2NY-cl-IwI" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="IUi-xH-XPf"/>
+                    <constraint firstItem="Bzx-bt-Zq0" firstAttribute="leading" secondItem="Ht9-Fc-rIS" secondAttribute="leading" id="NXY-hU-TkS"/>
+                    <constraint firstItem="2NY-cl-IwI" firstAttribute="baseline" secondItem="KGF-T0-OfH" secondAttribute="baseline" id="Q7W-Lp-1fO"/>
+                    <constraint firstItem="Ht9-Fc-rIS" firstAttribute="trailing" secondItem="Bzx-bt-Zq0" secondAttribute="trailing" id="eGx-5J-aVY"/>
+                    <constraint firstItem="KGF-T0-OfH" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="f3b-VR-uEw"/>
+                    <constraint firstItem="Bzx-bt-Zq0" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="19" id="sgS-br-Hd7"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="modeControlButton" destination="Bzx-bt-Zq0" id="Aq9-Yi-Q9u"/>
-                <outlet property="testLabel" destination="2NY-cl-IwI" id="j4k-3V-BRl"/>
+                <outlet property="pinNameLabel" destination="2NY-cl-IwI" id="NEZ-Qt-eGJ"/>
+                <outlet property="pinValueLabel" destination="KGF-T0-OfH" id="iBF-KC-mm5"/>
+                <outlet property="stateControlButton" destination="Ht9-Fc-rIS" id="OXr-T2-NYY"/>
             </connections>
-            <point key="canvasLocation" x="445" y="262"/>
+            <point key="canvasLocation" x="445" y="259"/>
         </tableViewCell>
     </objects>
 </document>

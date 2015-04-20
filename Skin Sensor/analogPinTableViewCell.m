@@ -15,12 +15,17 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-    NSLog(@"%@",[NSString stringWithFormat:@"the current value for isSeleced %d",self.selected]);
+    //NSLog(@"%@",[NSString stringWithFormat:@"the current value for isSeleced %d",self.selected]);
     // Configure the view for the selected state
 }
-
-- (IBAction)segmentedButtonTappedInAnalogPinCell:(id)sender {
-    NSLog(@"the IBAction in the analog cell was called");
+- (IBAction)modeSegmentedButtonTappedInAnalogPinCell:(id)sender {
+    NSLog(@"the IBAction for mode in the analog cell was called");
     [self.delegate analogModeSegmentedButtonWasTapped:self];
 }
+
+- (IBAction)stateSegmentedButtonTappedInAnalogPinCell:(id)sender {
+    NSLog(@"the IBAction for state in the analog cell was called");
+    [self.delegate analogStateSegmentedButtonWasTapped:self];
+}
+
 @end
