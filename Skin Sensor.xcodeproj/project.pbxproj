@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E02A09931AE638A3002805C4 /* analogPin.m in Sources */ = {isa = PBXBuildFile; fileRef = E02A09921AE638A3002805C4 /* analogPin.m */; };
+		E06664C91AE54872001927F3 /* digitalPin.m in Sources */ = {isa = PBXBuildFile; fileRef = E06664C81AE54872001927F3 /* digitalPin.m */; };
 		E0F89E7C1AD91A1700E95200 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E0F89E7B1AD91A1700E95200 /* main.m */; };
 		E0F89E7F1AD91A1700E95200 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E0F89E7E1AD91A1700E95200 /* AppDelegate.m */; };
 		E0F89E871AD91A1700E95200 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E0F89E861AD91A1700E95200 /* Images.xcassets */; };
@@ -32,7 +34,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		E06664C61AE50C8D001927F3 /* pinModeValues.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = pinModeValues.h; path = ../pinModeValues.h; sourceTree = "<group>"; };
+		E02A09911AE638A3002805C4 /* analogPin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = analogPin.h; sourceTree = "<group>"; };
+		E02A09921AE638A3002805C4 /* analogPin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = analogPin.m; sourceTree = "<group>"; };
+		E06664C71AE54872001927F3 /* digitalPin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = digitalPin.h; sourceTree = "<group>"; };
+		E06664C81AE54872001927F3 /* digitalPin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = digitalPin.m; sourceTree = "<group>"; };
+		E06664CA1AE54C69001927F3 /* pinValues.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pinValues.h; sourceTree = "<group>"; };
 		E0F89E761AD91A1700E95200 /* Skin Sensor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Skin Sensor.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E0F89E7A1AD91A1700E95200 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E0F89E7B1AD91A1700E95200 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -95,10 +101,14 @@
 		E0F89E781AD91A1700E95200 /* Skin Sensor */ = {
 			isa = PBXGroup;
 			children = (
-				E06664C61AE50C8D001927F3 /* pinModeValues.h */,
+				E06664CA1AE54C69001927F3 /* pinValues.h */,
 				E0F89EC21AD9210700E95200 /* Main.storyboard */,
 				E0F89EBC1AD920FB00E95200 /* mainMenuViewController.h */,
 				E0F89EBD1AD920FB00E95200 /* mainMenuViewController.m */,
+				E06664C71AE54872001927F3 /* digitalPin.h */,
+				E06664C81AE54872001927F3 /* digitalPin.m */,
+				E02A09911AE638A3002805C4 /* analogPin.h */,
+				E02A09921AE638A3002805C4 /* analogPin.m */,
 				E0F89EBE1AD920FB00E95200 /* PinIOTableViewController.h */,
 				E0F89EBF1AD920FB00E95200 /* PinIOTableViewController.m */,
 				E0F89EB71AD920EC00E95200 /* digitalPinTableViewCell.h */,
@@ -249,7 +259,9 @@
 				E0F89E7F1AD91A1700E95200 /* AppDelegate.m in Sources */,
 				E0F89EC01AD920FB00E95200 /* mainMenuViewController.m in Sources */,
 				E0F89E7C1AD91A1700E95200 /* main.m in Sources */,
+				E06664C91AE54872001927F3 /* digitalPin.m in Sources */,
 				E0F89EB51AD920DB00E95200 /* analogPinTableViewCell.m in Sources */,
+				E02A09931AE638A3002805C4 /* analogPin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -29,9 +29,9 @@
     [self.delegate digitalStateSegmentedButtonWasTapped:self];
 }
 
-- (IBAction)pvmSliderModifiedInDigitalPinCell:(id)sender {
+- (IBAction)pwmStepperModifiedInDigitalPinCell:(id)sender {
     NSLog(@"the IBAction sliderin the digital cell was called");
-    [self.delegate digitalPwmSliderWasMoved:self];
+    [self.delegate digitalPwmStepperWasTapped:self];
 }
 
 @end

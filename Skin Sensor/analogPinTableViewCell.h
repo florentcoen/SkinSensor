@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "pinModeValues.h"
 
 @class analogPinTableViewCell; //forward declaration tell the compiler this class exists, don't worry about it
 @protocol analogPinCellDelegate <NSObject>
@@ -20,7 +19,6 @@
 @interface analogPinTableViewCell : UITableViewCell
 
 @property (weak,nonatomic) id<analogPinCellDelegate> delegate; //delegate is any object that adopt the analogPinCellDelegate protocol
-@property (nonatomic) PinMode pinMode;
 
 @property (strong, nonatomic) IBOutlet UISegmentedControl *modeControlButton;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *stateControlButton;

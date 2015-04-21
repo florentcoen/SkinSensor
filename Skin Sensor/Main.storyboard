@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="13F1066" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="6kg-ed-YGm">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="13F1077" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="6kg-ed-YGm">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
     </dependencies>
@@ -90,7 +90,16 @@
                             <outlet property="delegate" destination="K9c-mo-2gx" id="0cX-DE-0Af"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Pin I/O" id="k3e-Tt-jkp"/>
+                    <navigationItem key="navigationItem" title="Pin I/O" id="k3e-Tt-jkp">
+                        <barButtonItem key="rightBarButtonItem" title="Debug" id="HAR-zb-5MG">
+                            <connections>
+                                <action selector="debugButtonTapped:" destination="K9c-mo-2gx" id="QDy-j6-vkZ"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="debugButton" destination="HAR-zb-5MG" id="SzZ-dL-3Uu"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FT8-Qi-A46" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

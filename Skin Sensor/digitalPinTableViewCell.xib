@@ -15,16 +15,16 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Digital Pin X" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LNm-S8-DVj">
-                        <rect key="frame" x="8" y="11" width="104" height="21"/>
+                        <rect key="frame" x="8" y="12" width="104" height="21"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="104" id="TyL-WN-8nz"/>
+                            <constraint firstAttribute="width" constant="104" id="N3x-s7-592"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Rvm-x2-D1C">
-                        <rect key="frame" x="27" y="53" width="266" height="29"/>
+                        <rect key="frame" x="27" y="54" width="266" height="29"/>
                         <segments>
                             <segment title="Digital Read"/>
                             <segment title="Digital Write"/>
@@ -35,16 +35,16 @@
                         </connections>
                     </segmentedControl>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pin Value" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bRp-Zq-tbc">
-                        <rect key="frame" x="234" y="11" width="78" height="21"/>
+                        <rect key="frame" x="234" y="12" width="78" height="21"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="78" id="OGO-Qv-8c9"/>
+                            <constraint firstAttribute="width" constant="78" id="R1W-Lg-LuW"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="gJM-fO-Hcj">
-                        <rect key="frame" x="27" y="91" width="266" height="29"/>
+                        <rect key="frame" x="27" y="92" width="266" height="29"/>
                         <segments>
                             <segment title="Low"/>
                             <segment title="High"/>
@@ -53,36 +53,35 @@
                             <action selector="stateSegmentedButtonTappedInDigitalPinCell:" destination="KGk-i7-Jjw" eventType="valueChanged" id="5If-VZ-zDq"/>
                         </connections>
                     </segmentedControl>
-                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="255" translatesAutoresizingMaskIntoConstraints="NO" id="Oc5-sh-F8A">
-                        <rect key="frame" x="25" y="91" width="270" height="31"/>
+                    <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="255" translatesAutoresizingMaskIntoConstraints="NO" id="P5D-aD-fmO">
+                        <rect key="frame" x="113" y="92" width="94" height="29"/>
                         <connections>
-                            <action selector="pvmSliderModifiedInDigitalPinCell:" destination="KGk-i7-Jjw" eventType="valueChanged" id="gTz-Eb-MQd"/>
+                            <action selector="pwmStepperModifiedInDigitalPinCell:" destination="KGk-i7-Jjw" eventType="valueChanged" id="7YJ-E7-rkZ"/>
                         </connections>
-                    </slider>
+                    </stepper>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="gJM-fO-Hcj" firstAttribute="top" secondItem="Oc5-sh-F8A" secondAttribute="top" id="2dG-Hu-Vo8"/>
-                    <constraint firstItem="Oc5-sh-F8A" firstAttribute="leading" secondItem="gJM-fO-Hcj" secondAttribute="leading" id="AzQ-rM-Fkm"/>
-                    <constraint firstItem="Rvm-x2-D1C" firstAttribute="trailing" secondItem="gJM-fO-Hcj" secondAttribute="trailing" id="OZl-KM-quJ"/>
-                    <constraint firstItem="gJM-fO-Hcj" firstAttribute="top" secondItem="Rvm-x2-D1C" secondAttribute="bottom" constant="10" id="OpT-OT-eFt"/>
-                    <constraint firstItem="Oc5-sh-F8A" firstAttribute="trailing" secondItem="gJM-fO-Hcj" secondAttribute="trailing" id="PKS-Ul-Red"/>
-                    <constraint firstItem="LNm-S8-DVj" firstAttribute="baseline" secondItem="bRp-Zq-tbc" secondAttribute="baseline" id="YKe-jk-Rlh"/>
-                    <constraint firstItem="bRp-Zq-tbc" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="aym-UC-KAk"/>
-                    <constraint firstItem="LNm-S8-DVj" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="3" id="e5x-49-Zpc"/>
-                    <constraint firstItem="Rvm-x2-D1C" firstAttribute="top" secondItem="LNm-S8-DVj" secondAttribute="bottom" constant="21" id="fM0-om-cHP"/>
-                    <constraint firstItem="gJM-fO-Hcj" firstAttribute="leading" secondItem="Rvm-x2-D1C" secondAttribute="leading" id="fnb-k1-rb5"/>
-                    <constraint firstItem="LNm-S8-DVj" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="jsr-sR-7NW"/>
-                    <constraint firstItem="Oc5-sh-F8A" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="ow5-c1-f96"/>
+                    <constraint firstItem="LNm-S8-DVj" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="4" id="0pQ-7Z-Ku4"/>
+                    <constraint firstItem="Rvm-x2-D1C" firstAttribute="trailing" secondItem="gJM-fO-Hcj" secondAttribute="trailing" id="26G-uZ-EJj"/>
+                    <constraint firstItem="gJM-fO-Hcj" firstAttribute="centerX" secondItem="P5D-aD-fmO" secondAttribute="centerX" id="6Z8-Ie-Ygn"/>
+                    <constraint firstItem="gJM-fO-Hcj" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="8oI-zf-kbW"/>
+                    <constraint firstItem="gJM-fO-Hcj" firstAttribute="leading" secondItem="Rvm-x2-D1C" secondAttribute="leading" id="ABK-rD-go9"/>
+                    <constraint firstItem="P5D-aD-fmO" firstAttribute="top" secondItem="gJM-fO-Hcj" secondAttribute="top" id="Bg6-ax-rTl"/>
+                    <constraint firstItem="LNm-S8-DVj" firstAttribute="baseline" secondItem="bRp-Zq-tbc" secondAttribute="baseline" id="Pkr-Rp-5u2"/>
+                    <constraint firstItem="Rvm-x2-D1C" firstAttribute="top" secondItem="LNm-S8-DVj" secondAttribute="bottom" constant="21" id="VqK-wE-g2U"/>
+                    <constraint firstItem="LNm-S8-DVj" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="bJC-Pr-8CR"/>
+                    <constraint firstItem="bRp-Zq-tbc" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="fEd-nh-sLn"/>
+                    <constraint firstItem="P5D-aD-fmO" firstAttribute="top" secondItem="Rvm-x2-D1C" secondAttribute="bottom" constant="10" id="mXL-zC-0g8"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="modeControlButton" destination="Rvm-x2-D1C" id="Y82-s3-aUa"/>
                 <outlet property="pinNameLabel" destination="LNm-S8-DVj" id="bh3-qq-Wnc"/>
                 <outlet property="pinValueLabel" destination="bRp-Zq-tbc" id="2M7-Tf-n0G"/>
-                <outlet property="pwmSlider" destination="Oc5-sh-F8A" id="6dv-ag-Yyv"/>
+                <outlet property="pwmStepper" destination="P5D-aD-fmO" id="fzn-8k-OTj"/>
                 <outlet property="stateControlButton" destination="gJM-fO-Hcj" id="724-Ak-zHn"/>
             </connections>
-            <point key="canvasLocation" x="482" y="186"/>
+            <point key="canvasLocation" x="482" y="184"/>
         </tableViewCell>
     </objects>
 </document>

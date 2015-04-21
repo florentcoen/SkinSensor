@@ -9,6 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "analogPinTableViewCell.h"
 #import "digitalPinTableViewCell.h"
+#import "digitalPin.h"
+#import "analogPin.h"
 
 @interface PinIOTableViewController : UITableViewController <digitalPinCellDelegate,analogPinCellDelegate>
+@property (nonatomic,strong) NSMutableArray *digitalPinsArray;
+@property (nonatomic,strong) NSMutableArray *analogPinsArray;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *debugButton;
 @end
