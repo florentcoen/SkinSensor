@@ -16,4 +16,6 @@
 @property (nonatomic,strong) NSMutableArray *digitalPinsArray;
 @property (nonatomic,strong) NSMutableArray *analogPinsArray;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *debugButton;
+
+- (void) transferDataFromMainMenuToSubview:(NSData*)newData;
 @end

@@ -176,7 +176,7 @@
     
 }
 
-#pragma mark Protocol
+#pragma mark - Table Cell Protocol
 
 - (void) digitalModeSegmentedButtonWasTapped:(digitalPinTableViewCell *) cell{
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
@@ -227,6 +227,87 @@
     analogPinAtIndexPath.pinState = cell.stateControlButton.selectedSegmentIndex;
     [self.tableView reloadData];
 }
+
+#pragma mark - Communication
+
+- (void) transferDataFromMainMenuToSubview:(NSData *)newData{
+    
+    NSLog(@"Data received in PinIO: %@", newData);
+    //Respond to incoming data from MainMenuViewController
+    uint8_t data[20];
+    static uint8_t buf[512];
+    static int length = 0;
+    int dataLength = (int)newData.length;
+    
+    [newData getBytes:&data length:dataLength]; //copy incoming new data into buffer data
+    
+    if (dataLength < 20){
+        
+        memcpy(&buf[length], data, dataLength);
+        length += dataLength;
+        
+        //[self processInputData:buf withLength:length];
+        length = 0;
+    }
+    
+    else if (dataLength == 20){
+        
+        memcpy(&buf[length], data, 20);
+        length += dataLength;
+        
+        if (length >= 64){
+            
+            //[self processInputData:buf withLength:length];
+            length = 0;
+        }
+    }
+    
+}
+/*
+- (void)processInputData:(uint8_t*)data withLength:(int)length{
+    
+    //Parse data we received
+    
+    //each message is 3 bytes long
+    for (int i = 0; i < length; i+=3){
+        
+        //Digital Reporting (per port)
+        //Port 0
+        if (data[i] == 0x90) {
+            uint8_t pinStates = data[i+1];
+            pinStates |= data[i+2] << 7;    //use LSB of third byte for pin7
+            [self updateForPinStates:pinStates port:0];
+            return;
+        }
+        
+        //Port 1
+        else if (data[i] == 0x91){
+            uint8_t pinStates = data[i+1];
+            pinStates |= (data[i+2] << 7);  //pins 14 & 15
+            [self updateForPinStates:pinStates port:1];
+            return;
+        }
+        
+        //Port 2
+        else if (data[i] == 0x92) {
+            uint8_t pinStates = data[i+1];
+            [self updateForPinStates:pinStates port:2];
+            return;
+        }
+        
+        //Analog Reporting (per pin)
+        else if ((data[i] >= 0xe0) && (data[i] <= 0xe5)){
+            
+            int pin = data[i] - 0xe0 + FIRST_ANALOG_PIN;
+            int val = data[i+1] + (data[i+2]<<7);
+            
+            if (pin <= (cells.count-1)) {
+                PinCell *cell = [self pinCellForpin:pin];
+                if (cell) [cell setAnalogValue:val];
+            }
+        }
+    }
+}*/
 
 #pragma mark Debug Function
 - (IBAction)debugButtonTapped:(id)sender {

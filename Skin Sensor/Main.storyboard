@@ -48,14 +48,19 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="K9c-mo-2gx" kind="show" identifier="pressedShowPinIOButton" id="Yyy-ss-2Tt"/>
+                                    <action selector="pressedPinIOButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="HDe-Lm-1ML"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="5Mr-oj-qpm">
+                                <rect key="frame" x="290" y="323" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="NnT-dE-bmi" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="DZX-qJ-RPx"/>
-                            <constraint firstItem="NnT-dE-bmi" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="XpY-bt-upd"/>
+                            <constraint firstItem="5Mr-oj-qpm" firstAttribute="top" secondItem="NnT-dE-bmi" secondAttribute="bottom" constant="8" symbolic="YES" id="0Ro-5m-oNy"/>
+                            <constraint firstItem="NnT-dE-bmi" firstAttribute="centerX" secondItem="5Mr-oj-qpm" secondAttribute="centerX" id="AgQ-Q3-rbK"/>
+                            <constraint firstItem="5Mr-oj-qpm" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="UZd-4j-WxG"/>
+                            <constraint firstItem="NnT-dE-bmi" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="VfN-0b-lnq"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Skin Sensor 1.0" id="NIZ-8u-tCf">
@@ -72,10 +77,14 @@
                             </button>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="connectionStatusButton" destination="5Mr-oj-qpm" id="5aR-2U-s0f"/>
+                        <segue destination="K9c-mo-2gx" kind="show" identifier="pressedShowPinIOButton" id="xTq-IK-8YW"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="286" y="-1509"/>
+            <point key="canvasLocation" x="305" y="-1447"/>
         </scene>
         <!--Pin I/O-->
         <scene sceneID="ePG-Kx-ZUZ">
@@ -103,7 +112,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FT8-Qi-A46" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1030" y="-1428"/>
+            <point key="canvasLocation" x="992" y="-1438"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="1S6-EZ-iaX">
