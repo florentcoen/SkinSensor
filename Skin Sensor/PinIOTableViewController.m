@@ -56,7 +56,13 @@
     
     [self.tableView reloadData];
     for (int i = 0; i<NUMBER_OF_PORTS; i++) {
-        [self enableDigitalReportingForPort:i];
+        [self setDigitalReportingForPort:i enabled:YES];
+    }
+    for (int i = 0; i<NUMBER_OF_ANALOG_PINS; i++) {
+        [self setPinMode: pinModeDigitalRead forAnalogPin:[self.analogPinsArray objectAtIndex:i]];
+    }
+    for (int i = 0; i<NUMBER_OF_DIGITAL_PINS; i++) {
+        [self setPinMode: pinModeDigitalRead forDigitalPin:[self.digitalPinsArray objectAtIndex:i]];
     }
 }
 
@@ -287,29 +293,26 @@
     //each message is 3 bytes long
     for (int i = 0; i < length; i+=3){
         
-        //Digital Reporting (per port) pins D0 to D15
-        //Port 0 pin D0 to D7 in mode digital read
+        //Pin D0 to D7 in mode digital read
         if (data[i] == 0x90) {
             uint8_t pinStates = data[i+1];
             pinStates |= data[i+2] << 7;    //use LSB of third byte for pin7
-            [self updateForPinStates:pinStates port:0];
+            [self updatePinsBundle: bundleD7D6D5D5D4D3D2D1D0 withPinsStates: pinStates];
             return;
         }
         
-        //Port 1 pins D8 to D15 in mode digital read => D14 & D15 connected to crystal
+        //Pins A1 A0 D13 D12 D11 D10 D9 D8 in mode digital read => D14 & D15 connected to crystal
         else if (data[i] == 0x91){
             uint8_t pinStates = data[i+1];
-            pinStates |= (data[i+2] << 7);  //pins 14 & 15
-            [self updateForPinStates:pinStates port:1];
-            NSLog(@"got info about port 1");
+            pinStates |= (data[i+2] << 7);  //pins A0 & A1
+            [self updatePinsBundle: bundleA1A0D13D12D11D10D9D8 withPinsStates: pinStates];
             return;
         }
         
-        //Port 2 pins A0 to A7 in mode digital read
+        //Pins A2 to A5 in mode digital read
         else if (data[i] == 0x92) {
             uint8_t pinStates = data[i+1];
-            [self updateForPinStates:pinStates port:2];
-            NSLog(@"got info about port 2");
+            [self updatePinsBundle: bundleA5A4A3A2 withPinsStates: pinStates];
             return;
         }
         
@@ -332,12 +335,11 @@
     }
 }
 
-- (void)updateForPinStates:(int)pinStates port:(uint8_t)port{
+- (void)updatePinsBundle:(PinsBundle) pinsBundle withPinsStates: (uint8_t)pinStates{
     
-    //Update pin table with new pin values received
+    //Update pin table with new pin values received in the bundle
 
-    //extract and update digital state of pin D3 to D7
-    if (port == 0) {
+    if (pinsBundle == bundleD7D6D5D5D4D3D2D1D0) {
         
         for (int i = 3; i<=7; i++) {
             
@@ -353,35 +355,45 @@
         }
     }
     
-    //extract and update digital state of pin D8
-    else if(port == 1){
+    else if(pinsBundle == bundleA1A0D13D12D11D10D9D8){
         
+        //take care of D8
         uint8_t state = pinStates;
         uint8_t mask = 1;
-        state = state & mask;
-        //isolate the bit representing the pin value and placing it at LSB position
+        state = state & mask; //isolate the bit representing the pin value and placing it at LSB position
         
         digitalPin *updatedDigitalPin = [self.digitalPinsArray objectAtIndex:5]; //pin D8 is stored at index 5 in digitalPinArray
         if (updatedDigitalPin.pinMode == pinModeDigitalRead) {
             updatedDigitalPin.pinState = state;
-            NSLog(@"updated state for port 1: %d",updatedDigitalPin.pinState);
+        }
+        
+        //take care of A0 and A1
+        for (int i = 6; i <=7; i++) {
+            state = pinStates;
+            mask = 1 << i;
+            state = state & mask;
+            state = state >> i;
+            
+            analogPin *updatedAnalogPin = [self.analogPinsArray objectAtIndex:i-6]; //since A0 is stored at index 0 in analogPinsArray
+            if (updatedAnalogPin.pinMode == pinModeDigitalRead) {
+                updatedAnalogPin.pinState = state;
+            }
+            
         }
     }
     
-    //extract and update digital state of pin A0 to A5
-    else if(port ==2){
+    else if(pinsBundle == bundleA5A4A3A2){
         
-        for (int i = 0; i<=5; i++) {
+        for (int i = 0; i<=3; i++) {
             
             uint8_t state = pinStates;
             uint8_t mask = 1 << i;
             state = state & mask;
             state = state >> i; //isolate the bit representing the pin value and placing it at LSB position
             
-            analogPin *updatedAnalogPin = [self.analogPinsArray objectAtIndex:i];
+            analogPin *updatedAnalogPin = [self.analogPinsArray objectAtIndex:i+2]; //since first bit corresponds to A2
             if (updatedAnalogPin.pinMode == pinModeDigitalRead) {
                 updatedAnalogPin.pinState = state;
-                NSLog(@"update state for port 2");
             }
         }
     }
@@ -389,54 +401,58 @@
 }
 
 #pragma mark - Communication Outgoing
-/*
-- (void)enableDigitalReportingForDigitalPin: (digitalPin *) targetedDigitalPin enabled:(BOOL)enabled{
-    
-    //Enable digital read mode for a digital pin
-    
-    uint8_t port;
-    uint8_t pin;
-    
-    NSInteger indexOfTargetedDigitalPin = [self.digitalPinsArray indexOfObject:targetedDigitalPin];
-    
-    if (indexOfTargetedDigitalPin <= 4) { //port 0, pin D3 to D7
-        port = 0;
-        pin = indexOfTargetedDigitalPin + 3; //pin D3 is stored at index 0 in digitalPinsArray
-    }
-    
-    else if (indexOfTargetedDigitalPin == 5){
-        port = 1;
-        pin = indexOfTargetedDigitalPin + 3;
-    }
-    
-    if (enabled) {
-        targetedDigitalPin.pinMode = pinModeDigitalRead;
-    }
-    else
-    uint8_t data0 = 0xd0 + port;
-    uint8_t data1 = [self genererateByteForMode:pinModeDigitalRead forPort:port];
-    
-}*/
 
-- (void) enableDigitalReportingForPort: (int) port{
+//enable Digital Read and Write mode for all the pins of a given port
+- (void) setDigitalReportingForPort: (int) port enabled: (BOOL) state{
     
     uint8_t data0 = 0xD0+port;
-    uint8_t data1 = 0x01; //0x000: disable digital reporting for an entire port, anything >0x00 enable digital reporting for an entire port
-    uint8_t bytes[2] = {data0, data1};
-    NSData *enabledPins = [[NSData alloc] initWithBytes:bytes length:2];
-    NSLog(@"enableDigitalReporting was called. it sent %@",enabledPins);
-    [self.delegate transferDataFromSubviewToMainMenu: enabledPins];
-    
-    if (port == 2) {
-        for (int i = 0; i<=5; i++) {
-            data0 = 0xc0 + i;
-            data1 = 0x01;
-            bytes[0] = data0;
-            bytes[1] = data1;
-            NSData *enabledAnalogPins = [[NSData alloc] initWithBytes:bytes length:2];
-            [self.delegate transferDataFromSubviewToMainMenu:enabledAnalogPins];
-        }
+    uint8_t data1;
+    if (state) {
+         data1 = 0x01; // anything different from 0x00 enable digital reporting for the entire port
     }
+    else{
+        data1 = 0x00;
+    }
+    uint8_t bytes[2] = {data0, data1};
+    NSData *enabledPortMessage = [[NSData alloc] initWithBytes:bytes length:2];
+    NSLog(@"enableDigitalReporting was called. it sent %@",enabledPortMessage);
+    [self.delegate transferDataFromSubviewToMainMenu: enabledPortMessage];
+}
+
+//enable Analog Read mode for a given pin
+- (void) setAnalogReportingForPin: (analogPin*) analogPin enabled: (BOOL) state{
+    
+    int pinIndex = [self.analogPinsArray indexOfObject:analogPin];
+    uint8_t data0 = 0xC0 + pinIndex;
+    uint8_t data1 = 0x01;
+    uint8_t bytes[2] = {data0, data1};
+    NSData *enabledAnalogPinMessage = [[NSData alloc] initWithBytes:bytes length:2];
+    
+    [self.delegate transferDataFromSubviewToMainMenu:enabledAnalogPinMessage];
+}
+
+- (void) setPinMode: (PinMode) mode forDigitalPin: (digitalPin *) digitalPin{
+    
+    int pinIndex = [self.digitalPinsArray indexOfObject:digitalPin]+3; //pin D3 is stored at index 0 in digitalPinsArray
+    uint8_t data0 = 0xF4;
+    uint8_t data1 = pinIndex;
+    uint8_t data2 = mode;
+    uint8_t bytes[3] = {data0,data1,data2};
+    NSData* newModeForPinMessage = [[NSData alloc] initWithBytes:bytes length:3];
+    
+    [self.delegate transferDataFromSubviewToMainMenu:newModeForPinMessage];
+}
+
+- (void) setPinMode: (PinMode) mode forAnalogPin: (analogPin *) analogPin{
+    
+    int pinIndex = [self.analogPinsArray indexOfObject:analogPin]+14; //pin A0 is number 14 on microcontroller
+    uint8_t data0 = 0xF4;
+    uint8_t data1 = pinIndex;
+    uint8_t data2 = mode;
+    uint8_t bytes[3] = {data0,data1,data2};
+    NSData* newModeForPinMessage = [[NSData alloc] initWithBytes:bytes length:3];
+    
+    [self.delegate transferDataFromSubviewToMainMenu:newModeForPinMessage];
 }
 
 - (uint8_t) genererateByteForMode: (PinMode) desiredMode forPort: (uint8_t) port{
@@ -480,7 +496,7 @@
 - (IBAction)debugButtonTapped:(id)sender {
     for (int i = 0; i <NUMBER_OF_DIGITAL_PINS; i++) {
         digitalPin *readPin = [self.digitalPinsArray objectAtIndex:i];
-        NSLog(@"%@: mode %d state %d slider %d",readPin.pinName,readPin.pinMode,readPin.pinState,readPin.pinStepperValue);
+        NSLog(@"%@: mode %d state %d stepper %d",readPin.pinName,readPin.pinMode,readPin.pinState,readPin.pinStepperValue);
     };
     NSLog(@"                                    ");
     for (int i = 0; i <NUMBER_OF_DIGITAL_PINS; i++) {

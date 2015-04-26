@@ -22,4 +22,10 @@ typedef enum {
     pinStateHigh,
 } PinState;
 
+typedef enum {
+    bundleD7D6D5D5D4D3D2D1D0,
+    bundleA1A0D13D12D11D10D9D8,
+    bundleA5A4A3A2
+} PinsBundle;
+
 #endif
