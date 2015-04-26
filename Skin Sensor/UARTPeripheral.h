@@ -23,6 +23,8 @@
 @property (nonatomic,weak) id<UARTPeripheralDelegate> delegate;
 
 + (CBUUID *)uartServiceUUID;
++ (CBUUID*)rxCharacteristicUUID;
 - (UARTPeripheral*)initWithPeripheral:(CBPeripheral*)peripheral delegate:(id<UARTPeripheralDelegate>) delegate;
 - (void) didConnect;
+- (void) transferDataFromMainMenuToUARTPeripheral:(NSData*)data;
 @end

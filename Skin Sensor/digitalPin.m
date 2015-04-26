@@ -15,6 +15,7 @@
     self = [super init];
     
     if(self){
+        self.digitalReportingEnabled = NO;
         self.pinMode = pinModeDigitalRead;
         self.pinName = @"Digital Pin Default";
         self.pinState = pinStateLow;

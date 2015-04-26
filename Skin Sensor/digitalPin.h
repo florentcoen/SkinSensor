@@ -12,6 +12,7 @@
 @interface digitalPin : NSObject
 
 @property (nonatomic, strong) NSString *pinName;
+@property (nonatomic, assign) BOOL digitalReportingEnabled;
 @property (nonatomic, assign) PinMode pinMode;
 @property (nonatomic, assign) PinState pinState;
 @property (nonatomic, assign) int pinStepperValue;

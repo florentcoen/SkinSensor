@@ -11,7 +11,7 @@
 #import "UARTPeripheral.h"
 #import "PinIOTableViewController.h"
 
-@interface mainMenuViewController : UIViewController <CBCentralManagerDelegate, UARTPeripheralDelegate>
+@interface mainMenuViewController : UIViewController <CBCentralManagerDelegate, UARTPeripheralDelegate, PinIOViewControllerDelegate>
 
 typedef enum {
     connectionStatusDisconnected = 0,

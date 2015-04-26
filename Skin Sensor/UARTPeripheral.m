@@ -61,40 +61,6 @@
     [self.peripheral discoverServices:@[[[self class] uartServiceUUID], [[self class] deviceInformationServiceUUID]]];
 }
 
-- (void)setupPeripheralForUse:(CBPeripheral*)peripheral{
-    
-    NSLog(@"Set up peripheral for user");
-    
-    for (CBService *s in peripheral.services) {
-        
-        for (CBCharacteristic *c in s.characteristics){
-            
-            if ([c.UUID isEqual:[[self class] rxCharacteristicUUID]]){
-                
-                NSLog(@"setupPeripheralForUse: found rxCharacteristic");
-                [self.peripheral setNotifyValue:YES forCharacteristic:c];
-            }
-            
-            else if ([c.UUID isEqual:[[self class] txCharacteristicUUID]]){
-                
-                NSLog(@"setupPeripheralForUse: found txCharacteristic");
-            }
-            
-            else if ([c.UUID isEqual:[[self class] hardwareRevisionUUID]]){
-                
-                NSLog(@"setupPeripheralForUse: found hardwareRevision");
-                [self.peripheral readValueForCharacteristic:c];
-                
-                //Once hardware revision string is read connection will be complete …
-                
-            }
-            
-        }
-        
-    }
-    
-}
-
 
 #pragma mark - CBPeripheral Delegate methods
 
@@ -164,16 +130,50 @@
     
 }
 
+- (void)setupPeripheralForUse:(CBPeripheral*)peripheral{
+    
+    NSLog(@"Set up peripheral for user");
+    
+    for (CBService *s in peripheral.services) {
+        
+        for (CBCharacteristic *c in s.characteristics){
+            
+            if ([c.UUID isEqual:[[self class] rxCharacteristicUUID]]){
+                
+                NSLog(@"setupPeripheralForUse: found rxCharacteristic");
+                [self.peripheral setNotifyValue:YES forCharacteristic:c];
+            }
+            
+            else if ([c.UUID isEqual:[[self class] txCharacteristicUUID]]){
+                
+                NSLog(@"setupPeripheralForUse: found txCharacteristic");
+            }
+            
+            else if ([c.UUID isEqual:[[self class] hardwareRevisionUUID]]){
+                
+                NSLog(@"setupPeripheralForUse: found hardwareRevision");
+                [self.peripheral readValueForCharacteristic:c];
+                
+                //Once hardware revision string is read connection will be complete …
+                
+            }
+            
+        }
+        
+    }
+    
+}
+
 - (void)peripheral:(CBPeripheral*)peripheral didUpdateValueForCharacteristic:(CBCharacteristic*)characteristic error:(NSError*)error{
     
     //Respond to value change on peripheral
-    
+    NSLog(@"Received: %@", characteristic.value);
     if (!error){
         if ([characteristic.UUID isEqual:[UARTPeripheral rxCharacteristicUUID]]){
             
             NSLog(@"Received: %@", characteristic.value);
             
-            //[self.delegate didReceiveData:[characteristic value]];
+            [self.delegate transferDataFromUARTPeripheralToMainMenu:characteristic.value];
         }
         
         else if ([characteristic.UUID isEqual:[UARTPeripheral hardwareRevisionUUID]]){
@@ -195,6 +195,36 @@
         [self.delegate uartDidEncounterError:@"Error receiving notification for characteristic"];
         
         return;
+    }
+    
+}
+
+#pragma mark - Communication Outgoing
+
+- (void)transferDataFromMainMenuToUARTPeripheral:(NSData*)data{
+    NSLog(@"writeRawData in UARTPeripheral was called");
+    //Send data to peripheral
+    //compare the 0xXX hexa number representing the state of the properties of txCharac to see if writewithoutresponse is enabled
+    for (CBService *s in self.peripheral.services) {
+        
+        for (CBCharacteristic *c in s.characteristics){
+            
+            if ([c.UUID isEqual:[[self class] txCharacteristicUUID]]){
+                
+                if ((c.properties & CBCharacteristicPropertyWriteWithoutResponse) != 0){
+                    
+                    [self.peripheral writeValue:data forCharacteristic:c type:CBCharacteristicWriteWithoutResponse];
+                }
+                else if ((c.properties & CBCharacteristicPropertyWrite) != 0){
+                    [self.peripheral writeValue:data forCharacteristic:c type:CBCharacteristicWriteWithResponse];
+                }
+                else{
+                    NSLog(@"No write property on TX characteristic, %d.", (int)c.properties);
+                }
+            }
+            
+        }
+        
     }
     
 }

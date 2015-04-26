@@ -12,8 +12,10 @@
 @interface analogPin : NSObject
 
 @property (nonatomic, strong) NSString *pinName;
+@property (nonatomic, assign) BOOL digitalReportingEnabled;
+@property (nonatomic, assign) BOOL analogReportingEnabled;
 @property (nonatomic, assign) PinMode pinMode;
 @property (nonatomic, assign) PinState pinState;
-@property (nonatomic, assign) double pinAnalogValue;
+@property (nonatomic, assign) int pinAnalogValue;
 
 @end

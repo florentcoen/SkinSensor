@@ -12,7 +12,14 @@
 #import "digitalPin.h"
 #import "analogPin.h"
 
+@protocol PinIOViewControllerDelegate
+
+- (void)transferDataFromSubviewToMainMenu:(NSData*)newData;
+
+@end
+
 @interface PinIOTableViewController : UITableViewController <digitalPinCellDelegate,analogPinCellDelegate>
+@property (nonatomic,weak) id<PinIOViewControllerDelegate> delegate;
 @property (nonatomic,strong) NSMutableArray *digitalPinsArray;
 @property (nonatomic,strong) NSMutableArray *analogPinsArray;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *debugButton;

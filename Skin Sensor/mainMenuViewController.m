@@ -42,6 +42,7 @@
         [self.connectionStatusButton stopAnimating];
         [self.connectionStatusButton setHidden:YES];
         self.pinIOViewController = segue.destinationViewController;
+        self.pinIOViewController.delegate = self;
     }
 }
 
@@ -168,6 +169,18 @@
             [self.pinIOViewController transferDataFromMainMenuToSubview:newData];
         }
     }
+}
+
+#pragma mark - PinIOViewControllerDelegate
+
+- (void) transferDataFromSubviewToMainMenu:(NSData *)newData{
+    
+    //Output data to UART peripheral
+    
+    NSLog(@"sendData in mainMenu called sending: %@", newData);
+    
+    [self.currentPeripheral transferDataFromMainMenuToUARTPeripheral:newData];
+    
 }
 /*
 #pragma mark - Navigation
