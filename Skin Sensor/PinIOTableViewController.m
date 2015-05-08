@@ -207,9 +207,11 @@
     NSLog(@"The digital protocol was executed correctly and this button press has been transmitted");
     if (cell.modeControlButton.selectedSegmentIndex == 2) {
         digitalPinAtIndexPath.pinMode = pinModeDigitalPwm; //pinModeDigitalPvm = 3 while the button = 2 => correction required
+        [self setPinMode: pinModeDigitalPwm forDigitalPin: digitalPinAtIndexPath];
     }
     else{
         digitalPinAtIndexPath.pinMode = cell.modeControlButton.selectedSegmentIndex;
+        [self setPinMode: digitalPinAtIndexPath.pinMode forDigitalPin: digitalPinAtIndexPath];
     }
     [self.tableView reloadData];
 }
@@ -220,6 +222,7 @@
     
     NSLog(@"The digital protocol was executed correctly and this button press has been transmitted");
     digitalPinAtIndexPath.pinState = cell.stateControlButton.selectedSegmentIndex;
+    [self setPinStateforDigitalPin: digitalPinAtIndexPath];
     [self.tableView reloadData];
 }
 
@@ -455,40 +458,75 @@
     [self.delegate transferDataFromSubviewToMainMenu:newModeForPinMessage];
 }
 
-- (uint8_t) genererateByteForMode: (PinMode) desiredMode forPort: (uint8_t) port{
+- (void) setPinStateforDigitalPin: (digitalPin *) digitalPin{
     
-    uint8_t modeByte = 0x00;
+    int pinIndex = [self.digitalPinsArray indexOfObject:digitalPin]+3; //pin D3 is stored at index 0 in digitalPinsArray
+    PinsBundle bundleToUpdate;
+    if (pinIndex == 8) { //except for D8 all digital pins are part of the same bundle
+        bundleToUpdate = bundleA1A0D13D12D11D10D9D8;
+    }
+    else{
+        bundleToUpdate = bundleD7D6D5D5D4D3D2D1D0;
+    }
     
-    if (port == 0) { //digital pin D0 to D7. representing byte: D7 D6 D5 D4 D3 D2 D1 D0
+    NSData* newStatesForBundleMessage = [self genererateBytesForBundule:bundleToUpdate];
+    
+    [self.delegate transferDataFromSubviewToMainMenu:newStatesForBundleMessage];
+}
+
+- (NSData*) genererateBytesForBundule: (PinsBundle) pinsBundle{
+    
+    uint8_t data0 = 0x00, data1 = 0x00, data2 = 0x00;
+    
+    if (pinsBundle == bundleD7D6D5D5D4D3D2D1D0) { //digital pin D0 to D7. representing 3 bytes: 0X90 - EMPTY D6 D5 D4 D3 D2 D1 D0 - D7
+        NSLog(@"Update bundle d7 to d0");
+        data0 = 0x90;
         
-        for (int i = 0; i<=4; i++) {
+        for (int i = 0; i<4; i++) { //fill byte data1 with EMPTY D6 D5 D4 D3 D2 D1 D0. D2 D1 D0 always at 0
             digitalPin *scannedDigitalPin = [self.digitalPinsArray objectAtIndex:i];
-            if (scannedDigitalPin.pinMode == desiredMode) {
-                modeByte |= (1<<(i+3)); //set bit i+3 to 1 as D3 is stored at index 0
+            if (scannedDigitalPin.pinState == pinStateHigh) {
+                data1 |= (1<<(i+3)); //set bit i+3 to 1 as D3 is stored at index 0
             }
         }
+        
+        data2 = [[self.digitalPinsArray objectAtIndex:4] pinState]; //fill data2 with D7
     }
     
-    else if (port == 1) { //digital pin D8 to D15 representing byte: D15 D14 D13 D12 D11 D10 D09 D08
+    else if (pinsBundle == bundleA1A0D13D12D11D10D9D8) { //digital pin D8 to D13, A0 to A1. representing 3 bytes: 0x91 - EMPTY A0 D13 D12 D11 D10 D09 D08 - A1
+        NSLog(@"Update bundle a1 to d8");
+        data0 = 0x91;
         
-        digitalPin *scannedDigitalPin = [self.digitalPinsArray objectAtIndex:5];
-        if (scannedDigitalPin.pinMode == desiredMode) {
-            modeByte |= 1; //set bit 0 to 1 as D8 is stored at index 5
+        //fill by data1 with EMPTY A0 D13 D12 D11 D10 D09 D08. D13 D12 D11 D10 D09 always at 0
+        PinState stateOfPinD8 = [[self.digitalPinsArray objectAtIndex:5] pinState];
+        if (stateOfPinD8 == pinStateHigh) {
+            data1 |= 1;
         }
+        
+        PinState stateOfPinA0 = [[self.analogPinsArray objectAtIndex:0] pinState];
+        if (stateOfPinA0 == pinStateHigh) {
+            data1 |= (1<<6);
+        }
+        
+        data2 = [[self.analogPinsArray objectAtIndex:1] pinState]; //fill data2 with A1
     }
     
-    else if(port ==2) { //analog pin A0 to A5 representing byte: 0 0 A5 A4 A3 A2 A1 A0
+    else if(pinsBundle == bundleA5A4A3A2) { //analog pin A2 to A5 representing 3 bytes: 0x92 - EMPTY EMPTY EMPT EMPTY A5 A4 A3 A2 - EMPTY
+        NSLog(@"Update bundle a5 to d2");
+        data0 = 0x92;
         
-        for (int i = 0; i<=5; i++) {
+        for (int i = 2; i<6; i++) {
             analogPin *scannedAnalogPin = [self.analogPinsArray objectAtIndex:i];
-            if (scannedAnalogPin.pinMode == desiredMode) {
-                modeByte |= (1<<i);
+            if (scannedAnalogPin.pinMode == pinStateHigh) {
+                data1 |= (1<<i);
             }
         }
         
     }
     
-    return modeByte;
+    uint8_t bytes[3] = {data0,data1,data2};
+    NSData* newStatesForBundleMessage = [[NSData alloc] initWithBytes:bytes length:3];
+    
+    return newStatesForBundleMessage;
     
 }
 
