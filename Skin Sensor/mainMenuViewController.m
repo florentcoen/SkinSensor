@@ -17,12 +17,24 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.connectionStatusButton setHidden:YES];
+    [self.connectionStatusProgressBar setHidden:YES];
     self.connectionMode = connectionModeNone;
     self.connectionStatus = connectionStatusDisconnected;
     self.pinIOViewController = nil;
+    self.currentPeripheral = nil;
     // Do any additional setup after loading the view.
 }
 
+- (void) viewWillAppear:(BOOL)animated{
+    if ((self.connectionStatus != connectionStatusDisconnected) && (self.currentPeripheral!=nil)) {
+        [self.centralManager cancelPeripheralConnection:self.currentPeripheral.peripheral];
+        self.connectionStatus = connectionStatusDisconnected;
+        self.connectionMode = connectionModeNone;
+        self.pinIOViewController = nil;
+        self.currentPeripheral = nil;
+        NSLog(@"PERIPHERAL DISCONNECTED AND INSTANCES RELEASED");
+    }
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -44,6 +56,14 @@
         self.pinIOViewController = segue.destinationViewController;
         self.pinIOViewController.delegate = self;
     }
+    else if([segue.identifier isEqualToString:@"pressedShowSkinSensorButton"])
+    {
+        NSLog(@"Pressed Show Skin Sensor in Main Menu View");
+        [self.connectionStatusProgressBar setHidden:YES];
+        [self.connectionStatusProgressBar setProgress:0.0 animated:NO];
+        self.skinSensorDataViewController = segue.destinationViewController;
+
+    }
 }
 
 - (IBAction)pressedPinIOButton:(id)sender {
@@ -55,6 +75,15 @@
     
     self.centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil options:nil];
 
+}
+- (IBAction)pressedSkinSensorButton:(id)sender {
+    [self.connectionStatusProgressBar setHidden:NO];
+    [self.connectionStatusProgressBar setProgress:0.1 animated:YES];
+    
+    self.connectionMode = connectionModeSkinSensor;
+    self.connectionStatus = connectionStatusScanning;
+    
+    self.centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil options:nil];
 }
 
 #pragma mark - Custom BLE methods
@@ -87,6 +116,7 @@
     }
     else{
         [self.centralManager scanForPeripheralsWithServices:@[[UARTPeripheral uartServiceUUID]] options:@{CBCentralManagerScanOptionAllowDuplicatesKey: [NSNumber numberWithBool:NO]}];
+        [self.connectionStatusProgressBar setProgress:0.3 animated:YES];
     }
 }
 
@@ -98,6 +128,8 @@
     [self.centralManager stopScan];
     
     [self connectPeripheral:peripheral];
+    
+    [self.connectionStatusProgressBar setProgress:0.5 animated:YES];
 }
 
 //called after central manager connected to peripheral
@@ -114,6 +146,7 @@
         else{
             NSLog(@"Did connect peripheral %@", peripheral.name);
             [self.currentPeripheral didConnect];
+            [self.connectionStatusProgressBar setProgress:0.7 animated:YES];
         }
     }
 }
@@ -150,7 +183,10 @@
     if (self.connectionMode == connectionModePinIO) {
         [self performSegueWithIdentifier:@"pressedShowPinIOButton"sender:self];
     }
-    
+    else if(self.connectionMode == connectionModeSkinSensor){
+        [self performSegueWithIdentifier:@"pressedShowSkinSensorButton"sender:self];
+        [self.connectionStatusProgressBar setProgress:1.0 animated:YES];
+    }
 }
 
 - (void)transferDataFromUARTPeripheralToMainMenu:(NSData*)newData{

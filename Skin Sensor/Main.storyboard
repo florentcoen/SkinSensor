@@ -28,7 +28,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mEA-UJ-GHb" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="8cI-VG-5oy" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1792" y="-2811"/>
+            <point key="canvasLocation" x="1984" y="-2071"/>
         </scene>
         <!--Skin Sensor 1.0-->
         <scene sceneID="tne-QT-ifu">
@@ -43,7 +43,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NnT-dE-bmi">
-                                <rect key="frame" x="255" y="285" width="90" height="30"/>
+                                <rect key="frame" x="255" y="235" width="90" height="30"/>
                                 <state key="normal" title="Show Pin I/O">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -52,15 +52,34 @@
                                 </connections>
                             </button>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="5Mr-oj-qpm">
-                                <rect key="frame" x="290" y="323" width="20" height="20"/>
+                                <rect key="frame" x="290" y="273" width="20" height="20"/>
                             </activityIndicatorView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7UP-hZ-uGT">
+                                <rect key="frame" x="246" y="325" width="108" height="30"/>
+                                <state key="normal" title="Skin Sensor 1.0">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="pressedSkinSensorButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bjV-nX-YfE"/>
+                                </connections>
+                            </button>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mmL-GX-ezP">
+                                <rect key="frame" x="225" y="363" width="150" height="2"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="150" id="AbR-7F-Alq"/>
+                                </constraints>
+                            </progressView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="5Mr-oj-qpm" firstAttribute="top" secondItem="NnT-dE-bmi" secondAttribute="bottom" constant="8" symbolic="YES" id="0Ro-5m-oNy"/>
-                            <constraint firstItem="NnT-dE-bmi" firstAttribute="centerX" secondItem="5Mr-oj-qpm" secondAttribute="centerX" id="AgQ-Q3-rbK"/>
-                            <constraint firstItem="5Mr-oj-qpm" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="UZd-4j-WxG"/>
-                            <constraint firstItem="NnT-dE-bmi" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="VfN-0b-lnq"/>
+                            <constraint firstItem="7UP-hZ-uGT" firstAttribute="top" secondItem="5Mr-oj-qpm" secondAttribute="bottom" constant="32" id="7y2-cp-g6E"/>
+                            <constraint firstItem="NnT-dE-bmi" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="171" id="EX4-Jg-dEh"/>
+                            <constraint firstItem="mmL-GX-ezP" firstAttribute="top" secondItem="7UP-hZ-uGT" secondAttribute="bottom" constant="8" symbolic="YES" id="G8K-lT-k1k"/>
+                            <constraint firstItem="5Mr-oj-qpm" firstAttribute="top" secondItem="NnT-dE-bmi" secondAttribute="bottom" constant="8" symbolic="YES" id="Zvn-Yb-HVB"/>
+                            <constraint firstItem="7UP-hZ-uGT" firstAttribute="centerX" secondItem="5Mr-oj-qpm" secondAttribute="centerX" id="deX-aK-acj"/>
+                            <constraint firstItem="NnT-dE-bmi" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="ge4-N4-rF8"/>
+                            <constraint firstItem="mmL-GX-ezP" firstAttribute="centerX" secondItem="7UP-hZ-uGT" secondAttribute="centerX" id="l2D-I3-dcJ"/>
+                            <constraint firstItem="NnT-dE-bmi" firstAttribute="centerX" secondItem="5Mr-oj-qpm" secondAttribute="centerX" id="qyJ-5T-9WY"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Skin Sensor 1.0" id="NIZ-8u-tCf">
@@ -79,14 +98,16 @@
                     </navigationItem>
                     <connections>
                         <outlet property="connectionStatusButton" destination="5Mr-oj-qpm" id="5aR-2U-s0f"/>
+                        <outlet property="connectionStatusProgressBar" destination="mmL-GX-ezP" id="gxS-9K-WBt"/>
                         <segue destination="K9c-mo-2gx" kind="show" identifier="pressedShowPinIOButton" id="xTq-IK-8YW"/>
+                        <segue destination="iZB-Ac-Nq2" kind="show" identifier="pressedShowSkinSensorButton" id="Rgh-gF-RzZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="305" y="-1447"/>
         </scene>
-        <!--Pin I/O-->
+        <!--Title-->
         <scene sceneID="ePG-Kx-ZUZ">
             <objects>
                 <tableViewController id="K9c-mo-2gx" customClass="PinIOTableViewController" sceneMemberID="viewController">
@@ -99,20 +120,53 @@
                             <outlet property="delegate" destination="K9c-mo-2gx" id="0cX-DE-0Af"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Pin I/O" id="k3e-Tt-jkp">
-                        <barButtonItem key="rightBarButtonItem" title="Debug" id="HAR-zb-5MG">
-                            <connections>
-                                <action selector="debugButtonTapped:" destination="K9c-mo-2gx" id="QDy-j6-vkZ"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="debugButton" destination="HAR-zb-5MG" id="SzZ-dL-3Uu"/>
-                    </connections>
+                    <navigationItem key="navigationItem" title="Title" id="SIc-ni-uxp"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FT8-Qi-A46" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="992" y="-1438"/>
+            <point key="canvasLocation" x="1176" y="-1359"/>
+        </scene>
+        <!--Skin Sensor Data View Controller-->
+        <scene sceneID="st6-H9-yP8">
+            <objects>
+                <viewController storyboardIdentifier="SensorDataPageContentViewController" id="iZB-Ac-Nq2" customClass="skinSensorDataViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="wzE-Ew-BC6"/>
+                        <viewControllerLayoutGuide type="bottom" id="mxF-GZ-rrZ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ZLY-ab-joo">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6uv-hJ-MHs">
+                                <rect key="frame" x="279" y="187" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WA3-YM-RLc">
+                                <rect key="frame" x="277" y="382" width="46" height="30"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="6uv-hJ-MHs" firstAttribute="top" secondItem="wzE-Ew-BC6" secondAttribute="bottom" constant="123" id="REx-Z4-Rx2"/>
+                            <constraint firstItem="6uv-hJ-MHs" firstAttribute="centerX" secondItem="ZLY-ab-joo" secondAttribute="centerX" id="bXq-tY-LdU"/>
+                            <constraint firstItem="6uv-hJ-MHs" firstAttribute="centerX" secondItem="WA3-YM-RLc" secondAttribute="centerX" id="g9E-2y-Hxi"/>
+                            <constraint firstItem="mxF-GZ-rrZ" firstAttribute="top" secondItem="WA3-YM-RLc" secondAttribute="bottom" constant="188" id="uEW-GT-HjQ"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="testButton" destination="WA3-YM-RLc" id="yhi-Sz-bDT"/>
+                        <outlet property="testLabel" destination="6uv-hJ-MHs" id="cPc-Mv-hDI"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aju-X2-gjE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1176" y="-621"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="1S6-EZ-iaX">
@@ -148,7 +202,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2ny-B4-ZHk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1016" y="-2811"/>
+            <point key="canvasLocation" x="1176" y="-2071"/>
         </scene>
     </scenes>
 </document>
