@@ -241,6 +241,7 @@
     
     NSLog(@"The analog protocol was executed correctly and this button press has been transmitted");
     analogPinAtIndexPath.pinMode = cell.modeControlButton.selectedSegmentIndex;
+    [self setPinMode:analogPinAtIndexPath.pinMode forAnalogPin:analogPinAtIndexPath];
     [self.tableView reloadData];
 }
 
@@ -250,6 +251,7 @@
     
     NSLog(@"The analog protocol was executed correctly and this button press has been transmitted");
     analogPinAtIndexPath.pinState = cell.stateControlButton.selectedSegmentIndex;
+    [self setPinStateforAnalogPin:analogPinAtIndexPath];
     [self.tableView reloadData];
 }
 
@@ -427,7 +429,10 @@
     
     int pinIndex = [self.analogPinsArray indexOfObject:analogPin];
     uint8_t data0 = 0xC0 + pinIndex;
-    uint8_t data1 = 0x01;
+    uint8_t data1 = 0x00;
+    if (state == YES) {
+        data1 = 0x01;
+    }
     uint8_t bytes[2] = {data0, data1};
     NSData *enabledAnalogPinMessage = [[NSData alloc] initWithBytes:bytes length:2];
     
@@ -444,6 +449,7 @@
     NSData* newModeForPinMessage = [[NSData alloc] initWithBytes:bytes length:3];
     
     [self.delegate transferDataFromSubviewToMainMenu:newModeForPinMessage];
+    [self setPinStateforDigitalPin:digitalPin]; //update to insure the actual pin state on arduino corresponds to the pin state of the app data
 }
 
 - (void) setPinMode: (PinMode) mode forAnalogPin: (analogPin *) analogPin{
@@ -456,17 +462,34 @@
     NSData* newModeForPinMessage = [[NSData alloc] initWithBytes:bytes length:3];
     
     [self.delegate transferDataFromSubviewToMainMenu:newModeForPinMessage];
+    [self setPinStateforAnalogPin:analogPin]; //update to insure the actual pin state on the arduino corresponds to the pin state of the app data
 }
 
 - (void) setPinStateforDigitalPin: (digitalPin *) digitalPin{
     
     int pinIndex = [self.digitalPinsArray indexOfObject:digitalPin]+3; //pin D3 is stored at index 0 in digitalPinsArray
     PinsBundle bundleToUpdate;
-    if (pinIndex == 8) { //except for D8 all digital pins are part of the same bundle
+    if (pinIndex == 8) { //except for D8 all available digital pins are part of the same bundle
         bundleToUpdate = bundleA1A0D13D12D11D10D9D8;
     }
     else{
         bundleToUpdate = bundleD7D6D5D5D4D3D2D1D0;
+    }
+    
+    NSData* newStatesForBundleMessage = [self genererateBytesForBundule:bundleToUpdate];
+    
+    [self.delegate transferDataFromSubviewToMainMenu:newStatesForBundleMessage];
+}
+
+- (void) setPinStateforAnalogPin: (analogPin *) analogPin{
+    NSLog(@"Called setPinStateForAnalogPin");
+    int pinIndex = [self.analogPinsArray indexOfObject:analogPin]; //pin A0 is stored at index 0 in analogPinsArray
+    PinsBundle bundleToUpdate;
+    if (pinIndex < 2) { //A0 and A1 are part of a separate bundle
+        bundleToUpdate = bundleA1A0D13D12D11D10D9D8;
+    }
+    else{
+        bundleToUpdate = bundleA5A4A3A2;
     }
     
     NSData* newStatesForBundleMessage = [self genererateBytesForBundule:bundleToUpdate];
@@ -485,7 +508,7 @@
         for (int i = 0; i<4; i++) { //fill byte data1 with EMPTY D6 D5 D4 D3 D2 D1 D0. D2 D1 D0 always at 0
             digitalPin *scannedDigitalPin = [self.digitalPinsArray objectAtIndex:i];
             if (scannedDigitalPin.pinState == pinStateHigh) {
-                data1 |= (1<<(i+3)); //set bit i+3 to 1 as D3 is stored at index 0
+                data1 |= (1<<(i+3)); //set bit i+3 to 1 in message as D3 is stored at index 0
             }
         }
         
@@ -511,18 +534,18 @@
     }
     
     else if(pinsBundle == bundleA5A4A3A2) { //analog pin A2 to A5 representing 3 bytes: 0x92 - EMPTY EMPTY EMPT EMPTY A5 A4 A3 A2 - EMPTY
-        NSLog(@"Update bundle a5 to d2");
+        NSLog(@"Update bundle a5 to a2");
         data0 = 0x92;
         
         for (int i = 2; i<6; i++) {
             analogPin *scannedAnalogPin = [self.analogPinsArray objectAtIndex:i];
-            if (scannedAnalogPin.pinMode == pinStateHigh) {
-                data1 |= (1<<i);
+            if (scannedAnalogPin.pinState == pinStateHigh) {
+                data1 |= (1<<(i-2)); //set bit i-2 to 1 in message as A2 is stored at index 2
             }
         }
         
     }
-    
+    NSLog(@"data 1 contains %d", data1);
     uint8_t bytes[3] = {data0,data1,data2};
     NSData* newStatesForBundleMessage = [[NSData alloc] initWithBytes:bytes length:3];
     
