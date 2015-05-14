@@ -110,6 +110,12 @@
         
         cell.delegate = self;
         cell.pinNameLabel.text = digitalPinAtIndexPath.pinName;
+        if ((indexPath.row == 1) || (indexPath.row == 4) || (indexPath.row == 5)) { //only pins D3,D5,D6 support PWM mode
+            [cell.modeControlButton setEnabled:NO forSegmentAtIndex:2];
+        }
+        else{
+            [cell.modeControlButton setEnabled:YES forSegmentAtIndex:2];
+        }
         
         if (digitalPinAtIndexPath.pinMode == pinModeDigitalRead) {
             [cell.pwmStepper setHidden:YES];
@@ -232,6 +238,7 @@
     
     NSLog(@"The digital protocol was executed correctly and this button press has been transmitted");
     digitalPinAtIndexPath.pinStepperValue = cell.pwmStepper.value;
+    [self setPWMValue:digitalPinAtIndexPath.pinStepperValue forDigitalPin:digitalPinAtIndexPath];
     [self.tableView reloadData];
 }
 
@@ -255,7 +262,7 @@
     [self.tableView reloadData];
 }
 
-#pragma mark - Communication Incoming
+#pragma mark - Communication Incoming Data
 
 - (void) transferDataFromMainMenuToSubview:(NSData *)newData{
     
@@ -326,7 +333,7 @@
             
             int pinIndex = data[i] - 0xe0;
             int newAnalogvalue = data[i+1] + (data[i+2]<<7);
-            
+            NSLog(@"pin %d has received info to be updated with value %d",pinIndex,newAnalogvalue);
             if (pinIndex < self.analogPinsArray.count) {
                 
                 analogPin * updatedAnalogPin= [self.analogPinsArray objectAtIndex:pinIndex];
@@ -334,6 +341,7 @@
                 if(updatedAnalogPin.pinMode == pinModeAnalogRead){
                     
                     updatedAnalogPin.pinAnalogValue = newAnalogvalue;
+                    [self.tableView reloadData];
                 }
             }
         }
@@ -405,7 +413,7 @@
     [self.tableView reloadData];
 }
 
-#pragma mark - Communication Outgoing
+#pragma mark - Communication Outgoing Data
 
 //enable Digital Read and Write mode for all the pins of a given port
 - (void) setDigitalReportingForPort: (int) port enabled: (BOOL) state{
@@ -455,6 +463,7 @@
 - (void) setPinMode: (PinMode) mode forAnalogPin: (analogPin *) analogPin{
     
     int pinIndex = [self.analogPinsArray indexOfObject:analogPin]+14; //pin A0 is number 14 on microcontroller
+    PinMode previousMode = analogPin.pinMode;
     uint8_t data0 = 0xF4;
     uint8_t data1 = pinIndex;
     uint8_t data2 = mode;
@@ -462,7 +471,15 @@
     NSData* newModeForPinMessage = [[NSData alloc] initWithBytes:bytes length:3];
     
     [self.delegate transferDataFromSubviewToMainMenu:newModeForPinMessage];
+    
     [self setPinStateforAnalogPin:analogPin]; //update to insure the actual pin state on the arduino corresponds to the pin state of the app data
+    
+    if (mode == pinModeAnalogRead) { //manage analog value reporting
+        [self setAnalogReportingForPin:analogPin enabled:YES];
+    }
+    else if (previousMode == pinModeAnalogRead){
+        [self setAnalogReportingForPin:analogPin enabled:NO];
+    }
 }
 
 - (void) setPinStateforDigitalPin: (digitalPin *) digitalPin{
@@ -551,6 +568,18 @@
     
     return newStatesForBundleMessage;
     
+}
+
+- (void) setPWMValue:(uint8_t) newValue forDigitalPin: (digitalPin*) digitalPin{
+    
+    int pinIndex = [self.digitalPinsArray indexOfObject:digitalPin]+3; //pin D3 is stored at index 0 in digitalPinsArray
+    uint8_t data0 = 0xE0+pinIndex;
+    uint8_t data1 = newValue & 0X7F; //first 7 bits of newValue stored in data1. MSB of data1 left at 0
+    uint8_t data2 = newValue >> 7; //MSB of newValue put in data2
+    uint8_t bytes[3] = {data0,data1,data2};
+    NSData* newPWMValueForPinMessage = [[NSData alloc] initWithBytes:bytes length:3];
+    
+    [self.delegate transferDataFromSubviewToMainMenu:newPWMValueForPinMessage];
 }
 
 #pragma mark Debug Function
