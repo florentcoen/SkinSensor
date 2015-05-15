@@ -199,9 +199,9 @@
     
 }
 
-#pragma mark - Communication Outgoing
+#pragma mark - mainMenuViewControllerDelegate protocol - Outgoing Communication
 
-- (void)transferDataFromMainMenuToUARTPeripheral:(NSData*)data{
+- (void)transferDataFromMainMenuToSubcontroller:(NSData*)data{
     NSLog(@"writeRawData in UARTPeripheral was called");
     //Send data to peripheral
     //compare the 0xXX hexa number representing the state of the properties of txCharac to see if writewithoutresponse is enabled

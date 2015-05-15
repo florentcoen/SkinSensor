@@ -264,7 +264,7 @@
 
 #pragma mark - mainMenuViewControllerDelegate Protocol
 
-- (void) transferDataFromMainMenuToSubview:(NSData *)newData{
+- (void) transferDataFromMainMenuToSubcontroller:(NSData *)newData{
     
     NSLog(@"Data received in PinIO: %@", newData);
     //Respond to incoming data from MainMenuViewController

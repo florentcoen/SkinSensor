@@ -12,7 +12,7 @@
 - (IBAction)pressedTestButton:(id)sender {
 }
 
-- (void) transferDataFromMainMenuToSubview:(NSData *)newData{
+- (void) transferDataFromMainMenuToSubcontroller:(NSData *)newData{
     
 }
 @end

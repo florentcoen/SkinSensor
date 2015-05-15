@@ -32,7 +32,8 @@ typedef enum {
 @property (nonatomic, strong) CBCentralManager *centralManager;
 @property (nonatomic, strong) UARTPeripheral *currentPeripheral;
 
-@property (nonatomic, strong) id<mainMenuViewControllerDelegate> delegate;
+@property (nonatomic, strong) id<mainMenuViewControllerDelegate> delegatedSubview;
+@property (nonatomic, strong) id<mainMenuViewControllerDelegate> delegatedUARTPeripheral;
 
 @property (strong, nonatomic) IBOutlet UIActivityIndicatorView *connectionStatusButton;
 @property (strong, nonatomic) IBOutlet UIProgressView *connectionStatusProgressBar;

@@ -10,6 +10,6 @@
 
 @protocol mainMenuViewControllerDelegate <NSObject>
 
-- (void) transferDataFromMainMenuToSubview:(NSData*)newData;
+- (void) transferDataFromMainMenuToSubcontroller:(NSData*)newData;
 
 @end

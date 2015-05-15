@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreBluetooth/CoreBluetooth.h>
-
+#import "mainMenuViewControllerDelegate.h"
 @protocol UARTPeripheralDelegate
 
 - (void) uartDidEncounterError:(NSString*) error;
@@ -17,7 +17,7 @@
 
 @end
 
-@interface UARTPeripheral : NSObject <CBPeripheralDelegate>
+@interface UARTPeripheral : NSObject <CBPeripheralDelegate,mainMenuViewControllerDelegate>
 
 @property (nonatomic,strong) CBPeripheral *peripheral;
 @property (nonatomic,weak) id<UARTPeripheralDelegate> delegate;
@@ -26,5 +26,4 @@
 + (CBUUID*)rxCharacteristicUUID;
 - (UARTPeripheral*)initWithPeripheral:(CBPeripheral*)peripheral delegate:(id<UARTPeripheralDelegate>) delegate;
 - (void) didConnect;
-- (void) transferDataFromMainMenuToUARTPeripheral:(NSData*)data;
 @end
