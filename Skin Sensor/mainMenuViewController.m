@@ -20,7 +20,7 @@
     [self.connectionStatusProgressBar setHidden:YES];
     self.connectionMode = connectionModeNone;
     self.connectionStatus = connectionStatusDisconnected;
-    self.pinIOViewController = nil;
+    self.delegate = nil;
     self.currentPeripheral = nil;
     // Do any additional setup after loading the view.
 }
@@ -30,7 +30,7 @@
         [self.centralManager cancelPeripheralConnection:self.currentPeripheral.peripheral];
         self.connectionStatus = connectionStatusDisconnected;
         self.connectionMode = connectionModeNone;
-        self.pinIOViewController = nil;
+        self.delegate = nil;
         self.currentPeripheral = nil;
         NSLog(@"PERIPHERAL DISCONNECTED AND INSTANCES RELEASED");
     }
@@ -53,15 +53,21 @@
         NSLog(@"Pressed Show Pin I/O in Main Menu View");
         [self.connectionStatusButton stopAnimating];
         [self.connectionStatusButton setHidden:YES];
-        self.pinIOViewController = segue.destinationViewController;
-        self.pinIOViewController.delegate = self;
+        self.delegate = segue.destinationViewController; //the subview is the delegate of main menu. as such the subview implements the mainMenuControllerDelegate methods, which allow for the transfer of data from main menu to subview
+        
+        PinIOTableViewController* pinIOTableViewController = segue.destinationViewController;
+        pinIOTableViewController.delegate = self; //main menu is the delegate of the subview. as such main menu implements the subviewControllerDelegate methods, which allow for the transfer of data from subview to main menu
     }
     else if([segue.identifier isEqualToString:@"pressedShowSkinSensorButton"])
     {
         NSLog(@"Pressed Show Skin Sensor in Main Menu View");
         [self.connectionStatusProgressBar setHidden:YES];
         [self.connectionStatusProgressBar setProgress:0.0 animated:NO];
-        self.skinSensorDataViewController = segue.destinationViewController;
+        
+        self.delegate = segue.destinationViewController; //the subview is the delegate of main menu. as such the subview implements the mainMenuControllerDelegate methods, which allow for the transfer of data from main menu to subview
+        
+        SkinSensorDataViewController* skinSensorDataViewController = segue.destinationViewController;
+        skinSensorDataViewController.delegate = self; //main menu is the delegate of the subview. as such main menu implements the subviewControllerDelegate methods, which allow for the transfer of data from subview to main menu
 
     }
 }
@@ -196,18 +202,19 @@
     //Debug
     //    NSString *hexString = [newData hexRepresentationWithSpaces:YES];
     //    NSLog(@"Received: %@", newData);
-    
+    NSLog(@"WE RECEIVED DATA FROM UARTPERIPHERAL IN MAIN MENU");
     if (self.connectionStatus == connectionStatusConnected || self.connectionStatus == connectionStatusScanning) {
 
         //Pin I/O
-        if (_connectionMode == connectionModePinIO && self.pinIOViewController){
+        if (_connectionMode == connectionModePinIO && self.delegate != nil){
             //send data to PIN IO Controller
-            [self.pinIOViewController transferDataFromMainMenuToSubview:newData];
+            [self.delegate transferDataFromMainMenuToSubview:newData];
+            NSLog(@"THE DELEGATE METHOD WAS CALLED");
         }
     }
 }
 
-#pragma mark - PinIOViewControllerDelegate
+#pragma mark - subviewControllerDelegate
 
 - (void) transferDataFromSubviewToMainMenu:(NSData *)newData{
     

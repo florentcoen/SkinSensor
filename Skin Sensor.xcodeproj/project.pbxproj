@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		E02A09931AE638A3002805C4 /* analogPin.m in Sources */ = {isa = PBXBuildFile; fileRef = E02A09921AE638A3002805C4 /* analogPin.m */; };
-		E060D63F1B053B2E00528C4F /* skinSensorDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E060D63E1B053B2E00528C4F /* skinSensorDataViewController.m */; };
 		E06664C91AE54872001927F3 /* digitalPin.m in Sources */ = {isa = PBXBuildFile; fileRef = E06664C81AE54872001927F3 /* digitalPin.m */; };
+		E0AD2E3F1B05EFA20090EED5 /* SkinSensorDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E0AD2E3E1B05EFA20090EED5 /* SkinSensorDataViewController.m */; };
 		E0E95A601AEA4B7300155257 /* UARTPeripheral.m in Sources */ = {isa = PBXBuildFile; fileRef = E0E95A5F1AEA4B7300155257 /* UARTPeripheral.m */; };
 		E0F89E7C1AD91A1700E95200 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E0F89E7B1AD91A1700E95200 /* main.m */; };
 		E0F89E7F1AD91A1700E95200 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E0F89E7E1AD91A1700E95200 /* AppDelegate.m */; };
@@ -38,11 +38,13 @@
 /* Begin PBXFileReference section */
 		E02A09911AE638A3002805C4 /* analogPin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = analogPin.h; sourceTree = "<group>"; };
 		E02A09921AE638A3002805C4 /* analogPin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = analogPin.m; sourceTree = "<group>"; };
-		E060D63D1B053B2E00528C4F /* skinSensorDataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = skinSensorDataViewController.h; path = ../skinSensorDataViewController.h; sourceTree = "<group>"; };
-		E060D63E1B053B2E00528C4F /* skinSensorDataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = skinSensorDataViewController.m; path = ../skinSensorDataViewController.m; sourceTree = "<group>"; };
 		E06664C71AE54872001927F3 /* digitalPin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = digitalPin.h; sourceTree = "<group>"; };
 		E06664C81AE54872001927F3 /* digitalPin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = digitalPin.m; sourceTree = "<group>"; };
 		E06664CA1AE54C69001927F3 /* pinValues.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pinValues.h; sourceTree = "<group>"; };
+		E0AD2E3B1B05E1250090EED5 /* subviewControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = subviewControllerDelegate.h; sourceTree = "<group>"; };
+		E0AD2E3C1B05E3440090EED5 /* mainMenuViewControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mainMenuViewControllerDelegate.h; sourceTree = "<group>"; };
+		E0AD2E3D1B05EFA20090EED5 /* SkinSensorDataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkinSensorDataViewController.h; sourceTree = "<group>"; };
+		E0AD2E3E1B05EFA20090EED5 /* SkinSensorDataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkinSensorDataViewController.m; sourceTree = "<group>"; };
 		E0E95A5E1AEA4B7300155257 /* UARTPeripheral.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UARTPeripheral.h; sourceTree = "<group>"; };
 		E0E95A5F1AEA4B7300155257 /* UARTPeripheral.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UARTPeripheral.m; sourceTree = "<group>"; };
 		E0F89E761AD91A1700E95200 /* Skin Sensor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Skin Sensor.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -107,8 +109,6 @@
 		E0F89E781AD91A1700E95200 /* Skin Sensor */ = {
 			isa = PBXGroup;
 			children = (
-				E060D63D1B053B2E00528C4F /* skinSensorDataViewController.h */,
-				E060D63E1B053B2E00528C4F /* skinSensorDataViewController.m */,
 				E06664CA1AE54C69001927F3 /* pinValues.h */,
 				E0F89EC21AD9210700E95200 /* Main.storyboard */,
 				E0F89EBC1AD920FB00E95200 /* mainMenuViewController.h */,
@@ -131,7 +131,11 @@
 				E0F89E7E1AD91A1700E95200 /* AppDelegate.m */,
 				E0F89E861AD91A1700E95200 /* Images.xcassets */,
 				E0F89E881AD91A1700E95200 /* LaunchScreen.xib */,
+				E0AD2E3C1B05E3440090EED5 /* mainMenuViewControllerDelegate.h */,
+				E0AD2E3B1B05E1250090EED5 /* subviewControllerDelegate.h */,
 				E0F89E791AD91A1700E95200 /* Supporting Files */,
+				E0AD2E3D1B05EFA20090EED5 /* SkinSensorDataViewController.h */,
+				E0AD2E3E1B05EFA20090EED5 /* SkinSensorDataViewController.m */,
 			);
 			path = "Skin Sensor";
 			sourceTree = "<group>";
@@ -267,12 +271,12 @@
 				E0F89EBA1AD920EC00E95200 /* digitalPinTableViewCell.m in Sources */,
 				E0F89EC11AD920FB00E95200 /* PinIOTableViewController.m in Sources */,
 				E0F89E7F1AD91A1700E95200 /* AppDelegate.m in Sources */,
+				E0AD2E3F1B05EFA20090EED5 /* SkinSensorDataViewController.m in Sources */,
 				E0E95A601AEA4B7300155257 /* UARTPeripheral.m in Sources */,
 				E0F89EC01AD920FB00E95200 /* mainMenuViewController.m in Sources */,
 				E0F89E7C1AD91A1700E95200 /* main.m in Sources */,
 				E06664C91AE54872001927F3 /* digitalPin.m in Sources */,
 				E0F89EB51AD920DB00E95200 /* analogPinTableViewCell.m in Sources */,
-				E060D63F1B053B2E00528C4F /* skinSensorDataViewController.m in Sources */,
 				E02A09931AE638A3002805C4 /* analogPin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

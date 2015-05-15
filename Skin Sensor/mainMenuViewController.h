@@ -10,9 +10,9 @@
 #import <CoreBluetooth/CoreBluetooth.h>
 #import "UARTPeripheral.h"
 #import "PinIOTableViewController.h"
-#import "skinSensorDataViewController.h"
-
-@interface mainMenuViewController : UIViewController <CBCentralManagerDelegate, UARTPeripheralDelegate, PinIOViewControllerDelegate>
+#import "SkinSensorDataViewController.h"
+#import "mainMenuViewControllerDelegate.h"
+@interface mainMenuViewController : UIViewController <CBCentralManagerDelegate, UARTPeripheralDelegate, subviewControllerDelegate>
 
 typedef enum {
     connectionStatusDisconnected = 0,
@@ -32,8 +32,7 @@ typedef enum {
 @property (nonatomic, strong) CBCentralManager *centralManager;
 @property (nonatomic, strong) UARTPeripheral *currentPeripheral;
 
-@property (nonatomic, strong) PinIOTableViewController *pinIOViewController;
-@property (nonatomic, strong) skinSensorDataViewController *skinSensorDataViewController;
+@property (nonatomic, strong) id<mainMenuViewControllerDelegate> delegate;
 
 @property (strong, nonatomic) IBOutlet UIActivityIndicatorView *connectionStatusButton;
 @property (strong, nonatomic) IBOutlet UIProgressView *connectionStatusProgressBar;

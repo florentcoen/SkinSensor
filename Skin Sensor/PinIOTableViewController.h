@@ -11,18 +11,14 @@
 #import "digitalPinTableViewCell.h"
 #import "digitalPin.h"
 #import "analogPin.h"
+#import "subviewControllerDelegate.h"
+#import "mainMenuViewControllerDelegate.h"
 
-@protocol PinIOViewControllerDelegate
+@interface PinIOTableViewController : UITableViewController <digitalPinCellDelegate,analogPinCellDelegate,mainMenuViewControllerDelegate>
 
-- (void)transferDataFromSubviewToMainMenu:(NSData*)newData;
-
-@end
-
-@interface PinIOTableViewController : UITableViewController <digitalPinCellDelegate,analogPinCellDelegate>
-@property (nonatomic,weak) id<PinIOViewControllerDelegate> delegate;
+@property (nonatomic,weak) id<subviewControllerDelegate> delegate;
 @property (nonatomic,strong) NSMutableArray *digitalPinsArray;
 @property (nonatomic,strong) NSMutableArray *analogPinsArray;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *debugButton;
 
-- (void) transferDataFromMainMenuToSubview:(NSData*)newData;
 @end

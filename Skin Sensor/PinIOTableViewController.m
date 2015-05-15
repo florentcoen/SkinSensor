@@ -262,7 +262,7 @@
     [self.tableView reloadData];
 }
 
-#pragma mark - Communication Incoming Data
+#pragma mark - mainMenuViewControllerDelegate Protocol
 
 - (void) transferDataFromMainMenuToSubview:(NSData *)newData{
     
@@ -297,6 +297,8 @@
     }
     
 }
+
+#pragma mark - Communication Incoming Data
 
 - (void)processInputData:(uint8_t*)data withLength:(int)length{
     

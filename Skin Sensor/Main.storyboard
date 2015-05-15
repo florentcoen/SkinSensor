@@ -129,7 +129,7 @@
         <!--Skin Sensor Data View Controller-->
         <scene sceneID="st6-H9-yP8">
             <objects>
-                <viewController storyboardIdentifier="SensorDataPageContentViewController" id="iZB-Ac-Nq2" customClass="skinSensorDataViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SensorDataPageContentViewController" id="iZB-Ac-Nq2" customClass="SkinSensorDataViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="wzE-Ew-BC6"/>
                         <viewControllerLayoutGuide type="bottom" id="mxF-GZ-rrZ"/>
@@ -149,6 +149,9 @@
                                 <state key="normal" title="Button">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="pressedTestButton:" destination="iZB-Ac-Nq2" eventType="touchUpInside" id="sJJ-WL-9S6"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -160,8 +163,8 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="testButton" destination="WA3-YM-RLc" id="yhi-Sz-bDT"/>
-                        <outlet property="testLabel" destination="6uv-hJ-MHs" id="cPc-Mv-hDI"/>
+                        <outlet property="testButton" destination="WA3-YM-RLc" id="5Xu-zs-CAI"/>
+                        <outlet property="testLabel" destination="6uv-hJ-MHs" id="J8t-Rk-8kO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aju-X2-gjE" userLabel="First Responder" sceneMemberID="firstResponder"/>
