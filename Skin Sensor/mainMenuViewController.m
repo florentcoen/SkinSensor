@@ -66,8 +66,8 @@
         
         self.delegatedSubview = segue.destinationViewController; //the subview is the delegate of main menu. as such the subview implements the mainMenuControllerDelegate methods, which allow for the transfer of data from main menu to subview
         
-        SkinSensorDataViewController* skinSensorDataViewController = segue.destinationViewController;
-        skinSensorDataViewController.delegate = self; //main menu is the delegate of the subview. as such main menu implements the subviewControllerDelegate methods, which allow for the transfer of data from subview to main menu
+        SkinSensorViewController* skinSensorViewController = segue.destinationViewController;
+        skinSensorViewController.delegate = self; //main menu is the delegate of the subview. as such main menu implements the subviewControllerDelegate methods, which allow for the transfer of data from subview to main menu
 
     }
 }
@@ -210,7 +210,14 @@
         if (_connectionMode == connectionModePinIO && self.delegatedSubview != nil){
             //send data to PIN IO Controller
             [self.delegatedSubview transferDataFromMainMenuToSubcontroller:newData];
-            NSLog(@"THE DELEGATE METHOD WAS CALLED");
+            NSLog(@"THE DELEGATE METHOD FOR PIN I/0 WAS CALLED");
+        }
+        
+        //Skin Sensor 1.0
+        if (_connectionMode == connectionModeSkinSensor && self.delegatedSubview != nil){
+            //send data to PIN IO Controller
+            [self.delegatedSubview transferDataFromMainMenuToSubcontroller:newData];
+            NSLog(@"THE DELEGATE METHOD FOR SKIN SENSOR WAS CALLED");
         }
     }
 }
