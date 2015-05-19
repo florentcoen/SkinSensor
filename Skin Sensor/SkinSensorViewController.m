@@ -57,6 +57,8 @@ const double RBIAS_A1 = 0.03;
     const unsigned char *dataBuffer = (const unsigned char *)newData.bytes;
     uint16_t pinA0Value = [self make16BitsUnsignedFromByte:dataBuffer[1] and:dataBuffer[2]];
     uint16_t pinA1Value = [self make16BitsUnsignedFromByte:dataBuffer[4] and:dataBuffer[5]];
+    
+    NSLog(@"PINVALUE A0 %d PINVALUE A1 %d", pinA0Value,pinA1Value);
     [self computeResistorValuesForPinA0: pinA0Value andPinA1:pinA1Value];
     
     uint16_t sensorF0HumidityData = [self make16BitsUnsignedFromByte:dataBuffer[7] and:dataBuffer[8]];
@@ -68,7 +70,7 @@ const double RBIAS_A1 = 0.03;
     uint16_t sensorF1TemperatureData = [self make16BitsUnsignedFromByte:dataBuffer[14] and:dataBuffer[15]];
     self.currentSkinSensorValues.sensorF1Humidity = [self computeHumidityValueOfHDC1000From:sensorF1HumidityData];
     self.currentSkinSensorValues.sensorF1Temperature = [self computeTemperatureValueOfHDC1000From:sensorF1TemperatureData];
-    
+    NSLog(@"TEMP F0 %d TEMP F1 %d", sensorF0TemperatureData, sensorF1TemperatureData);
     NSString *date = [NSDateFormatter localizedStringFromDate:[NSDate date]
                                                     dateStyle:NSDateFormatterShortStyle
                                                     timeStyle:NSDateFormatterMediumStyle];
@@ -78,7 +80,7 @@ const double RBIAS_A1 = 0.03;
     newSkinSensorValues = self.currentSkinSensorValues;
     [self.skinSensorHistory addObject:newSkinSensorValues];
     
-    NSLog(@"SIZE OF HISTORY %d",[self.skinSensorHistory count]);
+    //NSLog(@"SIZE OF HISTORY %d",[self.skinSensorHistory count]);
 }
 
 - (uint16_t) make16BitsUnsignedFromByte: (uint8_t) higherByte and: (uint8_t) lowerByte{
@@ -93,25 +95,21 @@ const double RBIAS_A1 = 0.03;
     
     double voltageA0 = (double) pinA0Value / ARDUINO_AD_RESOLUTION * VS;
     double voltageA1 = (double) pinA1Value / ARDUINO_AD_RESOLUTION * VS;
-    NSLog(@"voltage a0 %lf voltage a1 %lf",voltageA0,voltageA1);
     double resistorA0 = RREF *(VS/voltageA0 -1) + RBIAS_A0;
     double resistorA1 = RREF *(VS/voltageA1 -1) + RBIAS_A1;
-    NSLog(@"resistor a0 %lf resistors a1 %lf",resistorA0,resistorA1);
     [self applyHeatFlowModelFromResistorA0:resistorA0 andResistorA1:resistorA1];
     
 }
 
 - (void) applyHeatFlowModelFromResistorA0: (double) resistorA0 andResistorA1: (double) resistorA1 {
-    self.currentSkinSensorValues.thermistorA0Temperature = (P1*pow(resistorA0, 4) + P2*pow(resistorA0, 3) + P3*pow(resistorA0, 2) + P4*resistorA0 + P5) / 20;
-    self.currentSkinSensorValues.thermistorA1Temperature = (P1*pow(resistorA1, 4) + P2*pow(resistorA1, 3) + P3*pow(resistorA1, 2) + P4*resistorA1 + P5) / 20;
-    NSLog(@"temperature a0 %lf",self.currentSkinSensorValues.thermistorA0Temperature);
-    NSLog(@"temperature a1 %lf",self.currentSkinSensorValues.thermistorA1Temperature);
+    self.currentSkinSensorValues.thermistorA0Temperature = (P1*pow(resistorA0, 4) + P2*pow(resistorA0, 3) + P3*pow(resistorA0, 2) + P4*resistorA0 + P5);
+    self.currentSkinSensorValues.thermistorA1Temperature = (P1*pow(resistorA1, 4) + P2*pow(resistorA1, 3) + P3*pow(resistorA1, 2) + P4*resistorA1 + P5);
     self.currentSkinSensorValues.bodyTemperature = 0;
 }
 
 - (double) computeTemperatureValueOfHDC1000From: (uint16_t) temperatureData{
     
-    return (double) temperatureData / (double) 65536 + 165 -40;
+    return (double) temperatureData / 65536.0 * 165.0 -40.0;
 }
 
 - (double) computeHumidityValueOfHDC1000From: (uint16_t) humidityData{
