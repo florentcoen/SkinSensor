@@ -11,6 +11,8 @@
 #import "subviewControllerDelegate.h"
 #import "skinSensorValues.h"
 #import <MessageUI/MessageUI.h>
+#import "CorePlot-CocoaTouch.h"
+
 @interface SkinSensorViewController : UIViewController<mainMenuViewControllerDelegate,MFMailComposeViewControllerDelegate>
 
 @property (strong, nonatomic) id<subviewControllerDelegate> delegate;
