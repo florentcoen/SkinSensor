@@ -14,7 +14,7 @@
 @property double thermistorA0Temperature;
 @property double thermistorA1Temperature;
 
-@property double sensorF0Humdity;
+@property double sensorF0Humidity;
 @property double sensorF0Temperature;
 @property double sensorF1Humidity;
 @property double sensorF1Temperature;
