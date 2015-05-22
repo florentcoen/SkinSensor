@@ -34,7 +34,36 @@ const double FOAM_ELEMENT_THICKNESS = 0.0015; // [m]
 const double BOLTZMAN_CONSTANT = 0.000000056703;
 const double T_CONST = 273.15;
 
-@implementation SkinSensorViewController
+@implementation SkinSensorViewController {
+    
+}
+
+#pragma mark - UIViewController lifecycle methods
+
+- (void) viewDidLoad{
+    
+    [super viewDidLoad];
+    self.currentSkinSensorValues = [[skinSensorValues alloc] init];
+    self.skinSensorHistory = [[NSMutableArray alloc] init];
+    self.currentIndex = 0;
+    
+    self.timerPeriodTextField.delegate = self;
+    self.ambiantTemperatureTextField.delegate = self;
+    self.ambiantTemperatureTextField.keyboardType = UIKeyboardTypeDecimalPad;
+    self.timerPeriodTextField.keyboardType = UIKeyboardTypeDecimalPad;
+    self.timerPeriod = 1;
+    self.timerPeriodTextField.text = @"1";
+    self.ambiantTemperature = 25;
+    self.ambiantTemperatureTextField.text = @"25";
+    
+    [self registerForKeyboardNotifications];
+    
+}
+
+-(void) viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    [self initPlot];
+}
 
 #pragma mark - Main Menu Controller Delegate
 - (void) transferDataFromMainMenuToSubcontroller:(NSData *)newData{
@@ -55,22 +84,16 @@ const double T_CONST = 273.15;
     [self updateLastBleMessageInterface:newData];
 }
 
+#pragma mark - Outgoing Communications
 
-#pragma mark - UIViewController lifecycle methods
-
-- (void) viewDidLoad{
+- (void) transmitTimerPeriod: (int) newPeriod{
     
-    [super viewDidLoad];
-    self.currentSkinSensorValues = [[skinSensorValues alloc] init];
-    self.skinSensorHistory = [[NSMutableArray alloc] init];
-    self.ambiantTemperature = 25;
-    self.currentIndex = 0;
+    uint8_t data0 = 0xFF;
+    uint8_t data1 = (uint8_t) newPeriod; //newPeriod is between 1 and 8 so last byte is enough
+    uint8_t bytes[2] = {data0,data1};
+    NSData* newPeriodForTimerMessage = [[NSData alloc] initWithBytes:bytes length:2];
     
-}
-
--(void) viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
-    [self initPlot];
+    [self.delegate transferDataFromSubviewToMainMenu:newPeriodForTimerMessage];
 }
 
 #pragma mark - Sensor Data processing and displaying
@@ -83,7 +106,7 @@ const double T_CONST = 273.15;
     uint16_t pinA0Value = [self make16BitsUnsignedFromByte:dataBuffer[1] and:dataBuffer[2]];
     uint16_t pinA1Value = [self make16BitsUnsignedFromByte:dataBuffer[4] and:dataBuffer[5]];
     
-    NSLog(@"PINVALUE A0 %d PINVALUE A1 %d", pinA0Value,pinA1Value);
+    //NSLog(@"PINVALUE A0 %d PINVALUE A1 %d", pinA0Value,pinA1Value);
     
     [self compute:newSkinSensorValues WithHeatFlowModelBasedOnPinA0:pinA0Value andPinA1:pinA1Value];
     
@@ -97,7 +120,7 @@ const double T_CONST = 273.15;
     newSkinSensorValues.sensorF1Humidity = [self computeHumidityValueOfHDC1000From:sensorF1HumidityData];
     newSkinSensorValues.sensorF1Temperature = [self computeTemperatureValueOfHDC1000From:sensorF1TemperatureData];
 
-    NSLog(@"TEMP F0 %d TEMP F1 %d", sensorF0TemperatureData, sensorF1TemperatureData);
+    //NSLog(@"TEMP F0 %d TEMP F1 %d", sensorF0TemperatureData, sensorF1TemperatureData);
     
     NSString *date = [NSDateFormatter localizedStringFromDate:[NSDate date]
                                                     dateStyle:NSDateFormatterShortStyle
@@ -107,15 +130,7 @@ const double T_CONST = 273.15;
     self.currentSkinSensorValues = newSkinSensorValues;
     [self.skinSensorHistory addObject:newSkinSensorValues];
     
-    NSLog(@"size of history %d",[self.skinSensorHistory count]);
-}
-
-- (uint16_t) make16BitsUnsignedFromByte: (uint8_t) higherByte and: (uint8_t) lowerByte{
-    uint16_t valueOn16Bits = lowerByte;
-    valueOn16Bits = higherByte;
-    valueOn16Bits = (valueOn16Bits << 8) | lowerByte;
-    return valueOn16Bits;
-    
+    //NSLog(@"size of history %d",[self.skinSensorHistory count]);
 }
 
 - (void) compute: (skinSensorValues*) newSkinSensorValues WithHeatFlowModelBasedOnPinA0: (uint16_t) pinA0Value andPinA1: (uint16_t) pinA1Value{
@@ -136,9 +151,6 @@ const double T_CONST = 273.15;
     
     newSkinSensorValues.bodyTemperature = (H_BLOOD_CONVECTION*(newSkinSensorValues.thermistorA0Temperature+T_CONST)*FOAM_ELEMENT_SIZE*FOAM_ELEMENT_SIZE-QconductionPolystyrene-Qconvexion-Qradiation)/(H_BLOOD_CONVECTION*FOAM_ELEMENT_SIZE*FOAM_ELEMENT_SIZE)-T_CONST;
     
-}
-
-- (void) applyHeatFlowModelFromResistorA0: (double) resistorA0 andResistorA1: (double) resistorA1 {
 }
 
 - (double) computeTemperatureValueOfHDC1000From: (uint16_t) temperatureData{
@@ -195,7 +207,123 @@ const double T_CONST = 273.15;
     }
 }
 
-#pragma mark - Chart behavior
+#pragma mark - UITextFieldDelegate Protocol
+
+- (void) textFieldDidBeginEditing:(UITextField *)textField{
+    self.activeField = textField;
+    UIToolbar* keyboardDoneButtonView = [[UIToolbar alloc] init];
+    [keyboardDoneButtonView sizeToFit];
+    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done"
+                                                                   style:UIBarButtonItemStylePlain target:self
+                                                                  action:@selector(doneClicked:)];
+    UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
+    [keyboardDoneButtonView setItems:[NSArray arrayWithObjects: flexibleSpace, doneButton, nil]];
+    textField.inputAccessoryView = keyboardDoneButtonView;
+}
+
+- (IBAction)doneClicked:(id)sender
+{
+    NSLog(@"Done Clicked.");
+    [self.view endEditing:YES];
+}
+
+
+- (BOOL) textFieldShouldEndEditing:(UITextField *)textField{
+    
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    NSNumber *inputValue = [formatter numberFromString:textField.text];
+    
+    if (inputValue == nil) { //there isn't a number in the textField
+        NSLog(@"THIS IS NOT A NUMBER IN TEXTFIELD");
+        return NO;
+    }
+    
+    if (textField == self.timerPeriodTextField) {
+        
+        if ((inputValue.integerValue >= 1) && (inputValue.integerValue <=8)) {
+            NSLog(@"PERIOD SUCCESSFULLY SET");
+            [textField resignFirstResponder];
+            return YES;
+        }
+        else {
+            NSLog(@"PERIOD REFUSED");
+            return NO;
+        }
+    }
+    else if (textField == self.ambiantTemperatureTextField) {
+        
+        if ((inputValue.floatValue >= 0) && (inputValue.floatValue <=40)) {
+            NSLog(@"AMBIANT TEMP SUCCESSFULLY SET");
+            [textField resignFirstResponder];
+            return YES;
+        }
+        else {
+            NSLog(@"AMBIANT TEMP REFUSED");
+            return NO;
+        }
+    }
+    
+    return NO;
+}
+
+- (void) textFieldDidEndEditing:(UITextField *)textField{
+    
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    NSNumber *inputValue = [formatter numberFromString:textField.text];
+    
+    if (textField == self.timerPeriodTextField) {
+        
+        self.timerPeriod = inputValue.integerValue;
+        [self transmitTimerPeriod:self.timerPeriod];
+        NSLog(@"the new period %d", self.timerPeriod);
+    }
+    else if (textField == self.ambiantTemperatureTextField) {
+        
+        self.ambiantTemperature = inputValue.doubleValue;
+        NSLog(@"the new ambiant temperature %f", self.ambiantTemperature);
+    }
+    self.activeField = nil;
+}
+
+- (void)registerForKeyboardNotifications
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWasShown:)
+                                                 name:UIKeyboardDidShowNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillBeHidden:)
+                                                 name:UIKeyboardWillHideNotification object:nil];
+    
+}
+
+// Called when the UIKeyboardDidShowNotification is sent.
+- (void)keyboardWasShown:(NSNotification*)aNotification
+{
+    NSDictionary* info = [aNotification userInfo];
+    CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, kbSize.height, 0.0);
+    self.scrollView.contentInset = contentInsets;
+    self.scrollView.scrollIndicatorInsets = contentInsets;
+    
+    // If active text field is hidden by keyboard, scroll it so it's visible
+    CGRect aRect = self.view.frame;
+    aRect.size.height -= kbSize.height;
+    if (!CGRectContainsPoint(aRect, self.activeField.frame.origin) ) {
+        [self.scrollView scrollRectToVisible:self.activeField.frame animated:YES];
+    }
+}
+
+// Called when the UIKeyboardWillHideNotification is sent
+- (void)keyboardWillBeHidden:(NSNotification*)aNotification
+{
+    UIEdgeInsets contentInsets = UIEdgeInsetsZero;
+    self.scrollView.contentInset = contentInsets;
+    self.scrollView.scrollIndicatorInsets = contentInsets;
+}
+
+#pragma mark - CorePlot PlotDataSource Protocol & Plot Update Methods
 
 - (void) updateGraphs{
     CPTGraph *theGraph = self.hostViewTemperature.hostedGraph;
@@ -214,6 +342,48 @@ const double T_CONST = 273.15;
     humidityPlotSpace.xRange = newRange;
     self.currentIndex++;
 }
+
+- (NSUInteger)numberOfRecordsForPlot:(CPTPlot *)plot{
+    return [self.skinSensorHistory count];
+}
+
+-(NSNumber *)numberForPlot:(CPTPlot *)plot field:(NSUInteger)fieldEnum recordIndex:(NSUInteger)index {
+    
+    NSInteger numberOfDataPoints = [self.skinSensorHistory count];
+    
+    switch (fieldEnum) {
+            
+        case CPTScatterPlotFieldX:
+            if (index < numberOfDataPoints) {
+                return [NSNumber numberWithUnsignedInteger:index];
+            }
+            break;
+            
+        case CPTScatterPlotFieldY:
+            if (index < numberOfDataPoints) {
+                if ([plot.identifier isEqual:@"body temperature identifier"]) {
+                    return [NSNumber numberWithDouble:[[self.skinSensorHistory objectAtIndex:index] bodyTemperature]];
+                }
+                else if([plot.identifier isEqual:@"thermistor A0 identifier"]) {
+                    return [NSNumber numberWithDouble:[[self.skinSensorHistory objectAtIndex:index] thermistorA0Temperature]];
+                }
+                else if([plot.identifier isEqual:@"thermistor A1 identifier"]) {
+                    return [NSNumber numberWithDouble:[[self.skinSensorHistory objectAtIndex:index] thermistorA1Temperature]];
+                }
+                else if([plot.identifier isEqual:@"humidity F0 identifier"]) {
+                    return [NSNumber numberWithDouble:[[self.skinSensorHistory objectAtIndex:index] sensorF0Humidity]];
+                }
+                else if([plot.identifier isEqual:@"humidity F1 identifier"]) {
+                    return [NSNumber numberWithDouble:[[self.skinSensorHistory objectAtIndex:index] sensorF1Humidity]];
+                }
+            }
+            break;
+    }
+    
+    return [NSDecimalNumber zero];
+}
+
+#pragma mark - Graphs & Plots Configuration
 
 -(void)initPlot {
     self.hostViewTemperature.allowPinchScaling = NO;
@@ -363,7 +533,7 @@ const double T_CONST = 273.15;
 }
 
 -(void)configureAxes {
-
+    
     // 1 - Create styles
     CPTMutableLineStyle *axisLineStyle = [CPTMutableLineStyle lineStyle];
     axisLineStyle.lineWidth = 1.0f;
@@ -434,57 +604,7 @@ const double T_CONST = 273.15;
     
 }
 
-
-#pragma mark CorePlot Delegate
-
-- (NSUInteger)numberOfRecordsForPlot:(CPTPlot *)plot{
-    return [self.skinSensorHistory count];
-}
-
--(NSNumber *)numberForPlot:(CPTPlot *)plot field:(NSUInteger)fieldEnum recordIndex:(NSUInteger)index {
-    
-    NSInteger numberOfDataPoints = [self.skinSensorHistory count];
-    
-    switch (fieldEnum) {
-            
-        case CPTScatterPlotFieldX:
-            if (index < numberOfDataPoints) {
-                return [NSNumber numberWithUnsignedInteger:index];
-            }
-            break;
-            
-        case CPTScatterPlotFieldY:
-            if (index < numberOfDataPoints) {
-                if ([plot.identifier isEqual:@"body temperature identifier"]) {
-                    return [NSNumber numberWithDouble:[[self.skinSensorHistory objectAtIndex:index] bodyTemperature]];
-                }
-                else if([plot.identifier isEqual:@"thermistor A0 identifier"]) {
-                    return [NSNumber numberWithDouble:[[self.skinSensorHistory objectAtIndex:index] thermistorA0Temperature]];
-                }
-                else if([plot.identifier isEqual:@"thermistor A1 identifier"]) {
-                    return [NSNumber numberWithDouble:[[self.skinSensorHistory objectAtIndex:index] thermistorA1Temperature]];
-                }
-                else if([plot.identifier isEqual:@"humidity F0 identifier"]) {
-                    return [NSNumber numberWithDouble:[[self.skinSensorHistory objectAtIndex:index] sensorF0Humidity]];
-                }
-                else if([plot.identifier isEqual:@"humidity F1 identifier"]) {
-                    return [NSNumber numberWithDouble:[[self.skinSensorHistory objectAtIndex:index] sensorF1Humidity]];
-                }
-            }
-            break;
-    }
-    
-    return [NSDecimalNumber zero];
-}
-
-- (IBAction)inputTimerPeriod:(id)sender {
-}
-
-- (IBAction)inputAmbiantTemperature:(id)sender {
-}
-
-
-#pragma mark Mail Composer Delegate
+#pragma mark - MFMailComposeViewControllerDelegate Protocol
 
 - (IBAction)pressedMailButton:(id)sender {
     NSLog(@"Mail button pressed");
@@ -500,7 +620,7 @@ const double T_CONST = 273.15;
         if ([MFMailComposeViewController canSendMail]) {
             mFMCVC.mailComposeDelegate = self;
             [mFMCVC setSubject:@"Data from Skin Sensor"];
-            [mFMCVC setMessageBody:@"Data from Skin Sensor 1.0" isHTML:NO];
+            [mFMCVC setMessageBody:@"Data from Skin Sensor 1.0\nLMIS4 - Group Renaud\n F.-V. Coen, D. Maillard, M. Neuenschwander" isHTML:NO];
             [self presentViewController:mFMCVC animated:YES completion:nil];
             
             [mFMCVC addAttachmentData:[sensorData dataUsingEncoding:NSUTF8StringEncoding] mimeType:@"text/csv" fileName:@"Skin_Sensor_Log.csv"];
@@ -535,4 +655,15 @@ const double T_CONST = 273.15;
     // Close the Mail Interface
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
+
+#pragma mark - Utilities
+
+- (uint16_t) make16BitsUnsignedFromByte: (uint8_t) higherByte and: (uint8_t) lowerByte{
+    uint16_t valueOn16Bits = lowerByte;
+    valueOn16Bits = higherByte;
+    valueOn16Bits = (valueOn16Bits << 8) | lowerByte;
+    return valueOn16Bits;
+    
+}
+
 @end

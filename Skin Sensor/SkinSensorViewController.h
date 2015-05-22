@@ -13,17 +13,24 @@
 #import <MessageUI/MessageUI.h>
 #import "CorePlot-CocoaTouch.h"
 
-@interface SkinSensorViewController : UIViewController<mainMenuViewControllerDelegate,MFMailComposeViewControllerDelegate,CPTPlotDataSource>
+@interface SkinSensorViewController : UIViewController<mainMenuViewControllerDelegate,MFMailComposeViewControllerDelegate,CPTPlotDataSource,UITextFieldDelegate>
 
 @property (strong, nonatomic) id<subviewControllerDelegate> delegate;
 
 @property (strong, nonatomic) NSMutableArray *skinSensorHistory;
 @property (strong, nonatomic) skinSensorValues *currentSkinSensorValues;
-@property double ambiantTemperature;
+@property (nonatomic) double ambiantTemperature;
+@property (nonatomic) int timerPeriod;
+@property (strong, nonatomic) UITextField *activeField;
 @property (nonatomic) NSUInteger currentIndex;
+
+@property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 
 @property (strong, nonatomic) IBOutlet CPTGraphHostingView *hostViewTemperature;
 @property (strong, nonatomic) IBOutlet CPTGraphHostingView *hostViewHumidity;
+
+@property (strong, nonatomic) IBOutlet UITextField *timerPeriodTextField;
+@property (strong, nonatomic) IBOutlet UITextField *ambiantTemperatureTextField;
 
 @property (strong, nonatomic) IBOutlet UILabel *bodyTemperatureLabel;
 @property (strong, nonatomic) IBOutlet UILabel *thermistorA0TemperatureLabel;

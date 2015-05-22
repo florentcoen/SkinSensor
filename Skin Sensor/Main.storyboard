@@ -241,19 +241,6 @@
                                         <rect key="frame" x="514" y="845" width="78" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
-                                        <connections>
-                                            <action selector="inputTimerPeriod:" destination="iZB-Ac-Nq2" eventType="editingDidEnd" id="Phf-3N-llN"/>
-                                            <action selector="setTimerPeriod:" destination="iZB-Ac-Nq2" eventType="editingDidEnd" id="oiX-He-uhb"/>
-                                        </connections>
-                                    </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OhZ-lY-xIm">
-                                        <rect key="frame" x="514" y="883" width="78" height="30"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                        <connections>
-                                            <action selector="inputAmbiantTemperature:" destination="iZB-Ac-Nq2" eventType="editingDidEnd" id="QM0-hE-TN0"/>
-                                            <action selector="setAmbiantTemperature:" destination="iZB-Ac-Nq2" eventType="editingDidEnd" id="O0u-Lh-wHy"/>
-                                        </connections>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Last BLE Message" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AtP-zj-CE7">
                                         <rect key="frame" x="228" y="947" width="144" height="21"/>
@@ -338,6 +325,11 @@
                                             <constraint firstAttribute="height" constant="200" id="oFm-8G-znv"/>
                                         </constraints>
                                     </view>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OhZ-lY-xIm">
+                                        <rect key="frame" x="514" y="883" width="78" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="m5I-77-TZ7" secondAttribute="bottom" constant="16" id="0b5-sV-nu6"/>
@@ -433,9 +425,11 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="600" height="1100"/>
                     <connections>
+                        <outlet property="ambiantTemperatureTextField" destination="OhZ-lY-xIm" id="d8M-U9-eJa"/>
                         <outlet property="bodyTemperatureLabel" destination="fgx-LN-arA" id="9XK-va-Dgi"/>
                         <outlet property="hostViewHumidity" destination="qA2-2F-Z3D" id="Bfk-6s-dYr"/>
                         <outlet property="hostViewTemperature" destination="oxa-Kn-jka" id="8CS-et-pU0"/>
+                        <outlet property="scrollView" destination="8Te-8i-9ny" id="HUO-VB-2yf"/>
                         <outlet property="sensorF0HumidityLabel" destination="6co-4R-f7J" id="TMW-2e-OIn"/>
                         <outlet property="sensorF0MessageLabel" destination="yOF-uA-AcT" id="sE2-cg-aX9"/>
                         <outlet property="sensorF0TemperatureLabel" destination="2jP-K4-u8P" id="7W1-Ob-KFZ"/>
@@ -446,6 +440,7 @@
                         <outlet property="thermistorA0TemperatureLabel" destination="RLF-IJ-pCB" id="GRe-oU-Syn"/>
                         <outlet property="thermistorA1MessageLabel" destination="Saf-UD-bsf" id="9lP-HZ-qnD"/>
                         <outlet property="thermistorA1TemperatureLabel" destination="7ou-lA-J2Z" id="lV0-Zo-1dd"/>
+                        <outlet property="timerPeriodTextField" destination="ccm-Ut-kFh" id="FcB-RK-1N6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aju-X2-gjE" userLabel="First Responder" sceneMemberID="firstResponder"/>
